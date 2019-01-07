@@ -15,7 +15,7 @@
         <v-btn to="/">Dashboard</v-btn>
         <v-btn to="/Users">Users List</v-btn>
         <v-btn to="/Tickets">Tickets</v-btn>
-        <v-btn to="/">Submit Ticket</v-btn>
+        <v-btn to="/Submit-Ticket">Submit Ticket</v-btn>
     </v-toolbar>
   </nav>
 </template>

@@ -1,11 +1,10 @@
 <template>
   <div>
-    Page 404
+    This is a Submit Ticket component
   </div>
 </template>
 
 <script>
-
 export default {
 
 }

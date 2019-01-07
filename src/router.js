@@ -38,6 +38,11 @@ export default new Router({
       component: () => import('./components/Users/Users.vue')
     },
     {
+      path: '/Submit-Ticket',
+      name: 'Ticket-Submit.vue',
+      component: () => import('./components/Tickets/Ticket-Submit.vue')
+    },
+    {
       path: '*',
       name: 'Page-404.vue',
       component: () => import('./components/Page-404.vue')
