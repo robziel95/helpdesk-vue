@@ -1,0 +1,56 @@
+//Colors from https://colorhunt.co/palette/130374
+/*
+others:
+https://colorhunt.co/palette/88310
+https://www.webdesignrankings.com/resources/lolcolors/
+https://material.io/tools/color/#!/?view.left=0&view.right=0&primary.color=FF5722&secondary.color=FFAB00&secondary.text.color=000000
+
+sass
+https://scotch.io/tutorials/angular-shortcut-to-importing-styles-files-in-components
+https://scotch.io/tutorials/using-sass-with-the-angular-cli
+
+*/
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xlg: 1200px;
+
+$color-white: rgba(255,255,255,1);
+$color-white-90: rgba(255,255,255,.90);
+$color-white-80: rgba(255,255,255,.80);
+$color-white-70: rgba(255,255,255,.75);
+$color-white-70: rgba(255,255,255,.70);
+$color-white-60: rgba(255,255,255,.60);
+
+$color-black: rgba(0,0,0,1);
+$color-black-90: rgba(0,0,0,.90);
+$color-black-80: rgba(0,0,0,.80);
+$color-black-75: rgba(0,0,0,.75);
+$color-black-70: rgba(0,0,0,.70);
+$color-black-60: rgba(0,0,0,.60);
+$color-black-5: rgba(0,0,0,.05);
+
+$color-orange: #ff8000;
+
+$color-purple-light: #8253d7;
+$color-purple: #6C49B8;
+//old purple 6a3cbc
+$color-purple-dark: #461b93;
+
+$color-cyan-light: #199094;
+$color-cyan: #008489;
+$color-cyan-dark: #00767b;
+
+$color-grey: #FAFAFA;
+$color-separator-grey: #EBEBEB;
+
+$color-font-dark: #484848;
+
+$color-pinky: #FF6666;
+
+$color-pill-grey: #BDBDBD;
+$color-pill-green: #2e7d32;
+$color-pill-orange: #eb7600 ;
+$color-pill-red: #FF4500;
+$color-pill-purple: #461b93;
+$color-pill-blue: #4AB3F4;
