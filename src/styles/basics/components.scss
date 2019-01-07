@@ -1,0 +1,12 @@
+.separator{
+    width: 100%;
+    height: 1px;
+    background-color: $color-separator-grey;
+    &--gradient-light{
+      background-image: linear-gradient(to right,#A9A9A9, #E9E9E9 , #A9A9A9);
+    }
+    &--margin{
+      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+  }

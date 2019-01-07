@@ -1,0 +1,28 @@
+nav {
+    background-color: $color-cyan!important;
+    .page-title{
+        color: #FFF;
+        font-size: 1.9rem;
+    }
+    background-color: $color-cyan!important;
+    .v-navigation-drawer{
+        background-color: $color-cyan;
+        box-shadow: none;
+        height: 100vh!important;
+        .v-list{
+            &__tile{
+                &__content{
+                    color: $color-white-90;
+                    font-size: 1.15rem;
+                }
+                .v-icon {
+                    color: $color-white-90;
+                }
+            }
+        }
+        &__border{
+            display: none!important;
+            width: 0;
+        }
+    }
+}
