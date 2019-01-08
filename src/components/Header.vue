@@ -26,6 +26,12 @@
             {{ link.name }}
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile @click="logout()">
+          <v-icon left class="white--text">exit_to_app</v-icon>
+          <v-list-tile-content>
+            Sign out
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
   </nav>
@@ -39,7 +45,6 @@ export default {
       navbarLinks: [
         { name: 'Sign in', icon: 'person', addClass: '', route: '/Login' },
         { name: 'Sign up', icon: 'person_add', addClass: '', route: '/Signup' },
-        { name: 'Sign out', icon: 'exit_to_app', addClass: '', route: '/' },
         { name: 'Dashboard', icon: 'home', addClass: '', route: '/' },
         { name: 'Users list', icon: 'people', addClass: '', route: '/Users' },
         { name: 'Tickets', icon: 'pages', addClass: '', route: '/Tickets' },

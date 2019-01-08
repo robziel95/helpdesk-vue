@@ -1,0 +1,38 @@
+.section-info{
+    &__block{
+      padding: 20px;
+      &__title{
+        font-size: 1.6rem;
+        text-align: center;
+        font-weight: 400;
+      }
+      &__content{
+        margin-top: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        > div {
+          
+          position: relative;
+          i {
+            font-size: 200px;
+          }
+          span{
+            font-size: 2.4rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+      }
+      &--orange .v-icon{
+        color: $color-orange;
+      }
+      &--pink .v-icon{
+        color: $color-purple;
+      }
+      &--green .v-icon{
+        color: $color-cyan;
+      }
+    }
+  }

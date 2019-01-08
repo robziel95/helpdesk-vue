@@ -1,0 +1,19 @@
+.btn{
+    font-weight: 500;
+    &--transparent{
+      color: $color-font-dark;
+      background-color: transparent;
+    }
+    &--orange{
+      color: $color-white;
+      background-color: $color-orange!important;
+    }
+    &--cyan{
+      color: $color-white;
+      background-color: $color-cyan!important;
+    }
+    &--pinky{
+      color: $color-white;
+      background-color: $color-pinky!important;
+    }
+  }
