@@ -14,8 +14,8 @@ app.use('/files/images', express.static(path.join('backend/files/images')))
 app.use('/files/upload', express.static(path.join('backend/files/upload')))
 
 mongoose.connect(
-  'mongodb://localhost:27017/helpdesk'
-  // "mongodb+srv://robz:EnyhIPVvwPUkeqeE@cluster0-zpzps.mongodb.net/helpdesk?retryWrites=true"
+  // 'mongodb://localhost:27017/helpdesk'
+  'mongodb+srv://robz:EnyhIPVvwPUkeqeE@cluster0-zpzps.mongodb.net/helpdesk-vue?retryWrites=true'
 )
   .then(
     () => {

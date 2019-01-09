@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const multer = require('multer')
 const jwt = require('jsonwebtoken')
 const checkAuth = require('../middleware/check-auth')
@@ -58,7 +58,7 @@ router.post('/api/users/create', multer({ storage: avatarStorage }).single('avat
         }
       )
         .catch(
-          err => {
+          () => {
             res.status(500).json({
               message: 'Invalid authentication credentials!'
             })
@@ -74,7 +74,7 @@ router.put('/api/users/:id', checkAuth, multer({ storage: avatarStorage }).singl
     hash => {
       let reqAvatarPath = (req.file !== undefined ? (url + '/files/images/' + req.file.filename) : req.body.avatarPath)
       // 'null' because FormData object which is sent with request transforms null to 'null'
-      if (reqAvatarPath == 'null') {
+      if (reqAvatarPath === 'null') {
         reqAvatarPath = undefined
       }
       const user = new User({
@@ -95,7 +95,7 @@ router.put('/api/users/:id', checkAuth, multer({ storage: avatarStorage }).singl
           }
         )
         .catch(
-          error => {
+          () => {
             res.status(500).json({
               message: 'Failed to update user!'
             })
@@ -114,7 +114,7 @@ router.get('/api/users', (req, res, next) => {
       })
     })
     .catch(
-      error => {
+      () => {
         res.status(500).json({
           message: 'User fetch failed!'
         })
@@ -134,7 +134,7 @@ router.get('/api/users/:id', (req, res, next) => {
       }
     )
     .catch(
-      error => {
+      () => {
         res.status(500).json({
           message: 'User fetch failed!'
         })
@@ -150,7 +150,7 @@ router.delete('/api/users/:id', checkAuth, (req, res, next) => {
       }
     )
     .catch(
-      error => {
+      () => {
         res.status(500).json({
           message: 'User deletion failed!'
         })
@@ -201,7 +201,7 @@ router.post('/api/user/login', (req, res, next) => {
       })
     })
     .catch(
-      err => {
+      () => {
         return res.status(401).json({
           message: 'Invalid authentication credentials, login failed!'
         })
