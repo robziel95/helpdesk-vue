@@ -5,49 +5,78 @@
         <h2 class="headline my-4">Create a new account</h2>
         <v-card class="pa-4">
           <form
+            @submit.prevent="onSubmit"
             ref="form"
-            lazy-validation
           >
-            <v-text-field
-            v-model="email"
-            label="E-mail"
-            required
-            ></v-text-field>
+
+            <div class="formField" :class="{invalidField: $v.userData.email.$error}">
+              <v-text-field
+              type="email"
+              v-model="userData.email"
+              label="E-mail*"
+              @blur="$v.userData.email.$touch()"
+              >
+              </v-text-field>
+
+              <p v-if="!$v.userData.email.email" class="errorText">Please provide a valid email address.</p>
+              <p v-if="!$v.userData.email.required && $v.userData.email.$error" class="errorText">This field must not be empty.</p>
+            </div>
+
+            <div class="formField" :class="{invalidField: $v.userData.name.$error}">
+              <v-text-field
+              v-model="userData.name"
+              label="Name*"
+              type="text"
+              @blur="$v.userData.name.$touch()"
+              ></v-text-field>
+
+              <p v-if="!$v.userData.name.required && $v.userData.name.$error" class="errorText">This field must not be empty.</p>
+            </div>
+
+            <div class="formField" :class="{invalidField: $v.userData.surname.$error}">
+              <v-text-field
+              v-model="userData.surname"
+              label="Surname*"
+              type="text"
+              @blur="$v.userData.surname.$touch()"
+              ></v-text-field>
+
+              <p v-if="!$v.userData.surname.required && $v.userData.surname.$error" class="errorText">This field must not be empty.</p>
+            </div>
 
             <v-text-field
-            v-model="name"
-            label="Name"
-            required
-            ></v-text-field>
-
-            <v-text-field
-            v-model="surname"
-            label="Surname"
-            required
-            ></v-text-field>
-
-            <v-text-field
-            v-model="nickname"
+            v-model="userData.nickname"
             label="Nickname"
+            type="text"
             ></v-text-field>
 
-            <v-text-field
-            v-model="password"
-            :rules="emailRules"
-            label="Password"
-            required
-            ></v-text-field>
+            <div class="formField" :class="{invalidField: $v.userData.password.$error}">
+              <v-text-field
+              type="password*"
+              v-model="userData.password"
+              label="Password"
+              @blur="$v.userData.password.$touch()"
+              ></v-text-field>
 
-            <v-text-field
-            v-model="password"
-            :rules="emailRules"
-            label="Repeat password"
-            required
-            ></v-text-field>
+              <p v-if="!$v.userData.password.required && $v.userData.password.$error" class="errorText">This field must not be empty.</p>
+              <p v-if="!$v.userData.password.minLength" class="errorText">Password must have at least  characters</p>
+            </div>
+
+            <div class="formField" :class="{invalidField: $v.userData.confirmPassword.$error}">
+              <v-text-field
+              type="password"
+              v-model="userData.confirmPassword"
+              label="Repeat password*"
+              @blur="$v.userData.confirmPassword.$touch()"
+              ></v-text-field>
+
+              <p v-if="!$v.userData.confirmPassword.required && $v.userData.confirmPassword.$error" class="errorText">This field must not be empty.</p>
+              <p v-if="!$v.userData.confirmPassword.sameAs && $v.userData.confirmPassword.$error" class="errorText">Passwords do not match</p>
+            </div>
 
             <v-btn
-            @click="validate"
             class="btn--cyan my-2 mx-0"
+            @click = onSubmit()
             >
             Create Account
             </v-btn>
@@ -59,8 +88,56 @@
 </template>
 
 <script>
-export default {
+import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 
+export default {
+  data () {
+    return {
+      userData: {
+        email: '',
+        name: '',
+        surname: '',
+        nickname: '',
+        password: '',
+        confirmPassword: ''
+      },
+      email: ''
+    }
+  },
+  methods: {
+    onSubmit () {
+      this.$v.$touch()
+      console.log('submit!')
+      if (this.$v.$invalid) {
+        console.log('invalid!')
+      } else {
+        console.log('valid!')
+      }
+    }
+  },
+  validations: {
+    userData: {
+      email: {
+        required: required,
+        email: email
+      },
+      name: {
+        required
+      },
+      surname: {
+        required
+      },
+      password: {
+        required,
+        minLength: minLength(4)
+      },
+      confirmPassword: {
+        required,
+        sameAs: sameAs('password')
+      }
+    }
+
+  }
 }
 </script>
 
