@@ -4,7 +4,7 @@
       <v-flex xs12 sm6 offset-sm3>
         <h2 class="headline my-4">Create a new account</h2>
         <v-card class="pa-4">
-          <form
+          <v-form
             @submit.prevent="onSubmit"
             ref="form"
           >
@@ -78,9 +78,9 @@
             class="btn--cyan my-2 mx-0"
             @click = onSubmit()
             >
-            Create Account
+              Create Account
             </v-btn>
-          </form>
+          </v-form>
         </v-card>
       </v-flex>
     </v-layout>
@@ -100,8 +100,7 @@ export default {
         nickname: '',
         password: '',
         confirmPassword: ''
-      },
-      email: ''
+      }
     }
   },
   methods: {

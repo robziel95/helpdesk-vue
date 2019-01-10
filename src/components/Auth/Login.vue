@@ -4,31 +4,54 @@
       <v-flex xs12 sm6 offset-sm3>
         <h2 class="headline my-4">Login</h2>
         <v-card class="pa-4">
-          <v-form
+          <form
+            @submit.prevent="onSubmit"
             ref="form"
-            v-model="valid"
-            lazy-validation
           >
-            <v-text-field
-              v-model="email"
-              label="E-mail"
-              required
-            ></v-text-field>
+            <div class="formField" :class="{invalidField: $v.userData.email.$error}">
+              <v-text-field
+              type="email"
+              v-model="userData.email"
+              label="E-mail*"
+              @blur="$v.userData.email.$touch()"
+              >
+              </v-text-field>
 
-            <v-text-field
-              v-model="password"
-              :rules="emailRules"
+              <p v-if="!$v.userData.email.email" class="errorText">Please provide a valid email address.</p>
+              <p v-if="!$v.userData.email.required && $v.userData.email.$error" class="errorText">This field must not be empty.</p>
+            </div>
+
+            <div class="formField" :class="{invalidField: $v.userData.password.$error}">
+              <v-text-field
+              type="password*"
+              v-model="userData.password"
               label="Password"
-              required
-            ></v-text-field>
+              @blur="$v.userData.password.$touch()"
+              ></v-text-field>
+
+              <p v-if="!$v.userData.password.required && $v.userData.password.$error" class="errorText">This field must not be empty.</p>
+              <p v-if="!$v.userData.password.minLength" class="errorText">Password must have at least  characters</p>
+            </div>
+
+            <div class="formField" :class="{invalidField: $v.userData.confirmPassword.$error}">
+              <v-text-field
+              type="password"
+              v-model="userData.confirmPassword"
+              label="Repeat password*"
+              @blur="$v.userData.confirmPassword.$touch()"
+              ></v-text-field>
+
+              <p v-if="!$v.userData.confirmPassword.required && $v.userData.confirmPassword.$error" class="errorText">This field must not be empty.</p>
+              <p v-if="!$v.userData.confirmPassword.sameAs && $v.userData.confirmPassword.$error" class="errorText">Passwords do not match</p>
+            </div>
 
             <v-btn
-              @click="validate"
-              class="btn--cyan my-2 mx-0"
+            class="btn--cyan my-2 mx-0"
+            @click = onSubmit()
             >
               Login
             </v-btn>
-          </v-form>
+          </form>
         </v-card>
       </v-flex>
     </v-layout>
@@ -36,8 +59,46 @@
 </template>
 
 <script>
-export default {
+import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 
+export default {
+  data () {
+    return {
+      userData: {
+        email: '',
+        password: '',
+        confirmPassword: ''
+      }
+    }
+  },
+  methods: {
+    onSubmit () {
+      this.$v.$touch()
+      console.log('submit!')
+      if (this.$v.$invalid) {
+        console.log('invalid!')
+      } else {
+        console.log('valid!')
+      }
+    }
+  },
+  validations: {
+    userData: {
+      email: {
+        required: required,
+        email: email
+      },
+      password: {
+        required,
+        minLength: minLength(4)
+      },
+      confirmPassword: {
+        required,
+        sameAs: sameAs('password')
+      }
+    }
+
+  }
 }
 </script>
 
