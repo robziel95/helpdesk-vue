@@ -10,6 +10,7 @@
     "app:start": "concurrently -n \"npm run serve\" \"npm run server\" "
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^8.4.0",
     "multer": "^1.4.1",
@@ -50,7 +51,12 @@
       "plugin:vue/essential",
       "@vue/standard"
     ],
-    "rules": {},
+    "rules": {
+      "semi": [
+        1,
+        "always"
+      ]
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }

@@ -25,14 +25,20 @@
           }
         }
       }
-      &--orange .v-icon{
-        color: $color-orange;
-      }
-      &--pink .v-icon{
-        color: $color-purple;
-      }
-      &--green .v-icon{
-        color: $color-cyan;
-      }
+      &--orange{
+        .v-icon, span{
+          color: $color-orange;
+        }
+      } 
+      &--pink{
+        .v-icon, span{
+          color: $color-purple;
+        }
+      } 
+      &--green{
+        .v-icon, span{
+          color: $color-cyan;
+        }
+      } 
     }
   }

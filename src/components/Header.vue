@@ -2,7 +2,7 @@
   <nav>
     <v-toolbar flat>
         <v-toolbar-title>
-          <h1 class="page-title">Helpdesk Project</h1>
+          <router-link to="/" class="page-title-link"><h1 class="page-title">Helpdesk Project</h1></router-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <div class="hidden-xs-only">
@@ -50,9 +50,9 @@ export default {
         { name: 'Tickets', icon: 'pages', addClass: '', route: '/Tickets' },
         { name: 'Submit ticket', icon: 'add', addClass: '', route: '/Submit-Ticket' }
       ]
-    }
+    };
   }
-}
+};
 </script>
 
 <style scoped lang="scss">

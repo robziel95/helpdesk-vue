@@ -1,15 +1,15 @@
-const mongoose = require('mongoose')
-const Ticket = require('../models/ticket')
-const User = require('../models/user')
+const mongoose = require('mongoose');
+const Ticket = require('../models/ticket');
+const User = require('../models/user');
 
 mongoose.connect(
-  'mongodb://localhost:27017/helpdesk'
+  // 'mongodb://localhost:27017/helpdesk'
   // "mongodb+srv://robz:EnyhIPVvwPUkeqeE@cluster0-zpzps.mongodb.net/helpdesk?retryWrites=true"
-)
+  'mongodb+srv://robz:EnyhIPVvwPUkeqeE@cluster0-zpzps.mongodb.net/helpdesk-vue?retryWrites=true'
+);
 
 var users = [
-  new User
-  (
+  new User(
     {
       'userType': 'administrator',
       'name': 'John',
@@ -21,8 +21,7 @@ var users = [
       'avatarPath': 'http://localhost:3000/files/images/missing_user_avatar.png'
     }
   ),
-  new User
-  (
+  new User(
     {
       'userType': 'employee',
       'name': 'test3',
@@ -34,8 +33,7 @@ var users = [
       'nickname': ''
     }
   ),
-  new User
-  (
+  new User(
     {
       'userType': 'employee',
       'name': 'test5',
@@ -47,8 +45,7 @@ var users = [
       'nickname': ''
     }
   ),
-  new User
-  (
+  new User(
     {
       'userType': 'employee',
       'name': 'test4',
@@ -60,8 +57,7 @@ var users = [
       'nickname': ''
     }
   ),
-  new User
-  (
+  new User(
     {
       'userType': 'employee',
       'name': 'Test6',
@@ -73,8 +69,7 @@ var users = [
       'nickname': ''
     }
   ),
-  new User
-  (
+  new User(
     {
       'userType': 'administrator',
       'name': 'testtype',
@@ -86,8 +81,7 @@ var users = [
       'nickname': ''
     }
   ),
-  new User
-  (
+  new User(
     {
       'userType': 'administrator',
       'name': 'test1',
@@ -99,8 +93,7 @@ var users = [
       'nickname': ''
     }
   ),
-  new User
-  (
+  new User(
     {
       'userType': 'employee',
       'name': 'Nicknametest',
@@ -112,8 +105,7 @@ var users = [
       'avatarPath': 'http://localhost:3000/files/images/missing_user_avatar.png'
     }
   ),
-  new User
-  (
+  new User(
     {
       'status': 'Rejected',
       'title': 'asdsadfs',
@@ -128,8 +120,7 @@ var users = [
       'nickname': ''
     }
   ),
-  new User
-  (
+  new User(
     {
       'userType': 'employee',
       'name': 'Justname',
@@ -141,26 +132,25 @@ var users = [
       'avatarPath': 'http://localhost:3000/files/images/missing_user_avatar.png'
     }
   )
-]
+];
 
-var ticketsSeedFinished = false
-var usersSeedFinished = false
-var usersCount = 0
+var ticketsSeedFinished = false;
+var usersSeedFinished = false;
+var usersCount = 0;
 
 for (var i = 0; i < users.length; i++) {
   users[i].save(function () {
-    usersCount++
+    usersCount++;
     if (usersCount === users.length) {
-      usersSeedFinished = true
-      populateTickets()
+      usersSeedFinished = true;
+      populateTickets();
     }
-  })
+  });
 }
 
 function populateTickets () {
   var tickets = [
-    new Ticket
-    (
+    new Ticket(
       {
         'status': 'Unassigned',
         'title': 'Test ticket',
@@ -174,8 +164,7 @@ function populateTickets () {
         'uploadedFileName': null
       }
     ),
-    new Ticket
-    (
+    new Ticket(
       {
         'status': 'Pending',
         'title': 'Test1, ticket 2',
@@ -188,8 +177,7 @@ function populateTickets () {
         'uploadedFileName': null
       }
     ),
-    new Ticket
-    (
+    new Ticket(
       {
         'status': 'Resolved',
         'title': 'Test 2, this is a more detailed ticket description',
@@ -202,8 +190,7 @@ function populateTickets () {
         'uploadedFileName': null
       }
     ),
-    new Ticket
-    (
+    new Ticket(
       {
         'status': 'Pending',
         'title': 'Test3. just a titledd',
@@ -216,8 +203,7 @@ function populateTickets () {
         'uploadedFileName': null
       }
     ),
-    new Ticket
-    (
+    new Ticket(
       {
         'status': 'Resolved',
         'title': 'Test5 resolved',
@@ -230,8 +216,7 @@ function populateTickets () {
         'uploadedFileName': null
       }
     ),
-    new Ticket
-    (
+    new Ticket(
       {
         'status': 'Unassigned',
         'title': 'Test 5 unassigned',
@@ -244,8 +229,7 @@ function populateTickets () {
         'uploadedFileName': null
       }
     ),
-    new Ticket
-    (
+    new Ticket(
       {
         'status': 'Pending',
         'title': 'Test 5, very long descdadsda',
@@ -258,23 +242,23 @@ function populateTickets () {
         'uploadedFileName': null
       }
     )
-  ]
+  ];
 
-  var ticketsCount = 0
+  var ticketsCount = 0;
   for (var j = 0; j < tickets.length; j++) {
     tickets[j].save(function () {
-      ticketsCount++
+      ticketsCount++;
       if (ticketsCount === tickets.length) {
-        ticketsSeedFinished = true
-        exit()
+        ticketsSeedFinished = true;
+        exit();
       }
-    })
+    });
   }
 }
 
 function exit () {
   if (usersSeedFinished && ticketsSeedFinished) {
-    console.log('Seed successfull')
-    mongoose.disconnect()
+    console.log('Seed successfull');
+    mongoose.disconnect();
   }
 }

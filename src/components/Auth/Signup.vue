@@ -52,9 +52,9 @@
 
             <div class="formField" :class="{invalidField: $v.userData.password.$error}">
               <v-text-field
-              type="password*"
+              type="password"
               v-model="userData.password"
-              label="Password"
+              label="Password*"
               @blur="$v.userData.password.$touch()"
               ></v-text-field>
 
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
+import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
 
 export default {
   data () {
@@ -101,17 +101,16 @@ export default {
         password: '',
         confirmPassword: ''
       }
-    }
+    };
   },
   methods: {
     onSubmit () {
-      this.$v.$touch()
-      console.log('submit!')
+      this.$v.$touch();
       if (this.$v.$invalid) {
-        console.log('invalid!')
-      } else {
-        console.log('valid!')
+        return;
       }
+      console.log('dispatch');
+      this.$store.dispatch('addUser', this.userData);
     }
   },
   validations: {
@@ -137,7 +136,7 @@ export default {
     }
 
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
