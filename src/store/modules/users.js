@@ -9,10 +9,6 @@ const getters = {};
 const mutations = {
   updateUsers: (state, payload) => {
     state.users = payload;
-  },
-  newUserAdded: () => {
-    console.log('New user has been added');
-    // TODO - snackbar
   }
 };
 
@@ -21,7 +17,7 @@ const actions = {
     console.log('Axios post');
     axios.post('api/users/create', payload)
       .then(res => {
-        context.commit('newUserAdded');
+        context.commit('showSnackbar', { text: 'New user has been added' });
         context.dispatch('updateUsers');
       }
       )

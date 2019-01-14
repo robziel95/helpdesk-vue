@@ -8,7 +8,7 @@
         <div class="hidden-xs-only">
           <v-btn to="/Login">Sign In</v-btn>
           <v-btn to="/Signup">Sign Up</v-btn>
-          <v-btn>Sign Out</v-btn>
+          <v-btn @click="logout">Sign Out</v-btn>
         </div>
         <v-toolbar-side-icon class="white hidden-sm-and-up" @click="navbarDrawer = !navbarDrawer"></v-toolbar-side-icon>
     </v-toolbar>
@@ -26,7 +26,7 @@
             {{ link.name }}
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="logout()">
+        <v-list-tile @click="logout">
           <v-icon left class="white--text">exit_to_app</v-icon>
           <v-list-tile-content>
             Sign out
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   data () {
     return {
@@ -51,6 +53,11 @@ export default {
         { name: 'Submit ticket', icon: 'add', addClass: '', route: '/Submit-Ticket' }
       ]
     };
+  },
+  methods: {
+    logout () {
+      this.$store.commit('showSnackbar', { text: 'You are now logged out' });
+    }
   }
 };
 </script>
