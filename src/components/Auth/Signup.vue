@@ -18,7 +18,7 @@
               >
               </v-text-field>
 
-              <p v-if="!$v.userData.email.email" class="errorText">Please provide a valid email address.</p>
+              <p v-if="!$v.userData.email.email && $v.userData.email.$error" class="errorText">Please provide a valid email address.</p>
               <p v-if="!$v.userData.email.required && $v.userData.email.$error" class="errorText">This field must not be empty.</p>
             </div>
 
