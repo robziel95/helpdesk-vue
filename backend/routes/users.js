@@ -142,7 +142,7 @@ router.get('/api/users/:id', (req, res, next) => {
     );
 });
 
-router.delete('/api/users/:id', checkAuth, (req, res, next) => {
+router.delete('/api/users/:id', (req, res, next) => {
   User.deleteOne({ _id: req.params.id })
     .then(
       result => {

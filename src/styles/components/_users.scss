@@ -1,0 +1,90 @@
+.box{
+    padding: 15px;
+    margin-bottom: 30px;
+    @extend %material-shadow;
+
+    &__header{
+        display: flex;
+        flex-direction: row;
+        &__picture{
+            img{
+                width: 60px;
+                height: auto;
+                object-fit: scale-down;
+                @media screen and (min-width: $breakpoint-md){
+                width: 100px;
+                }
+            }
+            }
+            &__content{
+            margin-left: 20px;
+            padding-bottom: 10px;
+            padding-top: 5px;
+            border-bottom: 1px solid $color-cyan;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            &__heading{
+                color: $color-cyan-dark;
+                font-weight: 700;
+                font-size: 1.3rem;
+                margin-top: 5px;
+                @media screen and (min-width: $breakpoint-md){
+                font-size: 1.5rem;
+                }
+            }
+            p{
+                margin-top: auto;
+                margin-bottom: auto;
+            }
+            span{
+                font-weight: 500;
+            }
+        }
+    }
+    &__body{
+        padding: 30px 0;
+        border-bottom: 1px solid $color-cyan;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        @media screen and (max-width: $breakpoint-md){
+        flex-direction: column;
+        }
+        > div{
+        margin: 10px 0;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        &::before{
+            margin-right: 12px;
+            font-weight: normal;
+            color: $color-cyan;
+            font-size: 1.3em;
+        }
+        > span {
+            margin-left: 5px;
+            font-weight: 600;
+        }
+        }
+    }
+    &__footer{
+        padding-top: 15px;
+        display: flex;
+        justify-content: flex-end;
+        .btn{
+        margin-left: 10px;
+        }
+    }
+}
+
+.text-editor{
+    &__editableDivSubstitute{
+        &.mat-form-field-appearance-legacy .mat-form-field-underline{
+        visibility: hidden;
+        }
+        .mat-form-field-label-wrapper{
+        top: 0px;
+        }
+    }
+}

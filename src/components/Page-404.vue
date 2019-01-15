@@ -2,14 +2,14 @@
   <section class="page-not-found">
     <h2 class="page-not-found--title">Page not found</h2>
     <div class="page-not-found--body">
-    <img src="../assets/404-not-found-2.png" alt="404 page not found">
+    <img src="http://localhost:3000/images/404-not-found.png" alt="404 page not found">
     </div>
   </section>
 </template>
 
 <script>
 export default {
-}
+};
 </script>
 
 <style scoped lang="scss">

@@ -9,9 +9,9 @@ const app = express();
 
 app.use(bodyParser.json());
 // express .static allows request to go to server, path redirects path to backend folder
-app.use('/images', express.static(path.join('backend/files/images')));
-app.use('/files/images', express.static(path.join('backend/files/images')));
-app.use('/files/upload', express.static(path.join('backend/files/upload')));
+app.use('/images', express.static(path.join('backend/images')));
+app.use('/files/images', express.static(path.join('backend/images')));
+app.use('/files/upload', express.static(path.join('backend/upload')));
 
 mongoose.connect(
   'mongodb://localhost:27017/helpdesk-vue'

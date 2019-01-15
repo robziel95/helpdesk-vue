@@ -7,7 +7,7 @@ const state = {
 const getters = {};
 
 const mutations = {
-  updateUsers: (state, payload) => {
+  fetchUsers: (state, payload) => {
     state.users = payload;
   }
 };
@@ -18,7 +18,7 @@ const actions = {
     axios.post('api/users/create', payload)
       .then(res => {
         context.commit('showSnackbar', { text: 'New user has been added' });
-        context.dispatch('updateUsers');
+        context.dispatch('fetchUsers');
       }
       )
       .catch(err => {
@@ -26,7 +26,7 @@ const actions = {
       }
       );
   },
-  updateUsers: (context) => {
+  fetchUsers: (context) => {
     axios.get('api/users/').then(
       (userData) => {
         let fetchedUsers = userData.data.users.map(user => {
@@ -43,9 +43,24 @@ const actions = {
         }
         );
         // console.log('fetchedUsers', fetchedUsers);
-        context.commit('updateUsers', fetchedUsers);
+        context.commit('fetchUsers', fetchedUsers);
       }
     );
+  },
+  deleteUser: (context, userId) => {
+    console.log(userId);
+    axios.delete('http://localhost:3000/api/users/' + userId)
+      .then(
+        res => {
+          context.dispatch('fetchUsers');
+          context.commit('showSnackbar', { text: 'User successfully deleted' });
+        }
+      )
+      .catch(
+        res => {
+          context.commit('showSnackbar', { text: 'User deletion failed' });
+        }
+      );
   }
 };
 
