@@ -1,13 +1,12 @@
 <template>
-  <div>
-    This is a single Ticket component
-  </div>
+  <div>Assbb</div>
 </template>
 
 <script>
+
 export default {
 
-}
+};
 </script>
 
 <style scoped lang="scss">
