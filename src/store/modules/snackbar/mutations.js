@@ -1,13 +1,4 @@
-const state = {
-  visible: false,
-  text: null,
-  timeout: 3500,
-  multiline: false
-};
-
-const getters = {};
-
-const mutations = {
+export default {
   showSnackbar: (state, payload) => {
     state.text = payload.text;
     // eslint-disable-next-line no-unneeded-ternary
@@ -28,15 +19,4 @@ const mutations = {
     state.timeout = 3000;
     state.text = null;
   }
-};
-
-const actions = {
-
-};
-
-export default {
-  state,
-  getters,
-  mutations,
-  actions
 };

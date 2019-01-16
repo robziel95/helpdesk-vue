@@ -1,18 +1,6 @@
 import axios from 'axios';
 
-const state = {
-  users: []
-};
-
-const getters = {};
-
-const mutations = {
-  fetchUsers: (state, payload) => {
-    state.users = payload;
-  }
-};
-
-const actions = {
+export default {
   addUser: (context, payload) => {
     console.log('Axios post');
     axios.post('api/users/create', payload)
@@ -62,11 +50,4 @@ const actions = {
         }
       );
   }
-};
-
-export default {
-  state,
-  getters,
-  mutations,
-  actions
 };
