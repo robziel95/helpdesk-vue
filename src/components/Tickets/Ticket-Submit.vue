@@ -6,42 +6,43 @@
         <v-card class="pa-4">
           <v-form
             @submit.prevent="onSubmit"
-            ref="form"
-          >
-            <div class="formField" :class="{invalidField: $v.ticketData.title.$error}">
+            ref="form">
+            <div class="formField" :class="{invalidField: $v.formData.title.$error}">
               <v-text-field
-              v-model="ticketData.title"
+              v-model="formData.title"
               label="Title*"
-              @blur="$v.ticketData.title.$touch()"
-              >
-              </v-text-field>
+              @blur="$v.formData.title.$touch()"/>
 
-              <!-- <p v-if="!$v.ticketData.title.required && $v.ticketData.title.$error && $v.ticketData.title.$dirty" class="errorText">This field must not be empty.</p> -->
-              <p v-if="!$v.ticketData.title.required && $v.ticketData.title.$error" class="errorText">This field must not be empty.</p>
+              <!-- <p v-if="!$v.formData.title.required && $v.formData.title.$error && $v.formData.title.$dirty" class="errorText">This field must not be empty.</p> -->
+              <p v-if="!$v.formData.title.required && $v.formData.title.$error"
+                class="errorText">
+                This field must not be empty.
+              </p>
             </div>
 
             <div class="formField">
-              <v-text-field
-              v-model="ticketData.priority"
-              label="Priority"
-              ></v-text-field>
+              <v-select
+                v-model="formData.priority"
+                item-value="Unassigned"
+                label="Priority"
+                :items="statusList"/>
             </div>
 
-            <div class="formField" :class="{invalidField: $v.ticketData.description.$error}">
+            <div class="formField" :class="{invalidField: $v.formData.description.$error}">
               <v-text-field
-              v-model="ticketData.description"
+              v-model="formData.description"
               label="Title*"
-              @blur="$v.ticketData.description.$touch()"
-              >
-              </v-text-field>
+              @blur="$v.formData.description.$touch()"/>
 
-              <p v-if="!$v.ticketData.description.required && $v.ticketData.description.$error" class="errorText">This field must not be empty.</p>
+              <p v-if="!$v.formData.description.required && $v.formData.description.$error"
+                class="errorText">
+                This field must not be empty.
+              </p>
             </div>
 
             <v-btn
             class="btn--cyan my-2 mx-0"
-            @click = onSubmit()
-            >
+            @click = onSubmit()>
               Submit Ticket
             </v-btn>
           </v-form>
@@ -58,16 +59,11 @@ import { mapActions } from 'vuex'
 export default {
   data () {
     return {
-      ticketData: {
-        id: null,
+      statusList: this.$store.state.tickets.statusList,
+      formData: {
         title: '',
-        priority: '',
-        description: '',
-        creator: null,
-        status: 'Unassigned',
-        creationDate: new Date().toISOString().slice(0, 10).replace(/-/g, '/'),
-        uploadedFilePath: null,
-        uploadedFileName: null
+        priority: 'Unassigned',
+        description: ''
       }
     }
   },
@@ -80,13 +76,22 @@ export default {
       if (this.$v.$invalid) {
         return
       }
-      console.log(this.ticketData)
-      this.addTicket(this.ticketData)
+      let ticketData = {
+        id: null,
+        title: this.formData.title,
+        priority: this.formData.priority,
+        description: this.formData.description,
+        creator: null,
+        status: 'Unassigned',
+        creationDate: new Date().toISOString().slice(0, 10).replace(/-/g, '/'),
+        uploadedFilePath: null,
+        uploadedFileName: null
+      }
+      this.addTicket(ticketData)
     }
-
   },
   validations: {
-    ticketData: {
+    formData: {
       title: {
         required
       },

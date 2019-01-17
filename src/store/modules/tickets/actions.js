@@ -1,17 +1,17 @@
 import axios from 'axios'
 
 export default {
-  addTicket: (inputTicket, uploadedFile = null) => {
+  addTicket: (context, inputTicket) => {
     let ticketFormData = new FormData()
     for (var key in inputTicket) {
       ticketFormData.append(key, inputTicket[key])
     }
-    ticketFormData.append('uploadedFile', uploadedFile)
-    console.log('AAAAAAAAA')
-    axios.post('http://localhost:3000/api/tickets', ticketFormData)
+    ticketFormData.append('uploadedFile', 'uploadedFile')
+    console.log(inputTicket)
+    axios.post('http://localhost:3000/api/tickets', inputTicket)
       .then(
         (responseData) => {
-          console.log(responseData)
+          console.log('SUCCESS')
         }
       )
       .catch(

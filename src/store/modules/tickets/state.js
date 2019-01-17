@@ -1,3 +1,4 @@
 export default {
-  tickets: []
+  tickets: [],
+  statusList: ['Unassigned', 'Pending', 'Resolved', 'Rejected']
 }

@@ -36,7 +36,7 @@ const fileStorage = multer.diskStorage({
   }
 })
 
-router.post('/api/tickets', multer({ storage: fileStorage }).single('uploadedFile'), checkAuth, (req, res, next) => {
+router.post('/api/tickets', multer({ storage: fileStorage }).single('uploadedFile'), (req, res, next) => {
   const url = req.protocol + '://' + req.get('host')
   let reqUploadedFilePath = (req.file !== undefined ? (url + '/files/upload/' + req.file.filename) : null)
   let reqUploadedFileName = (req.file !== undefined ? req.file.filename : null)
@@ -44,12 +44,14 @@ router.post('/api/tickets', multer({ storage: fileStorage }).single('uploadedFil
     title: req.body.title,
     priority: req.body.priority,
     description: req.body.description,
-    creator: req.userData.userId,
+    // creator: req.userData.userId,
+    creator: '5c3dc58c0852f72aec78b103',
     status: req.body.status,
     creationDate: req.body.creationDate,
     uploadedFilePath: reqUploadedFilePath,
     uploadedFileName: reqUploadedFileName
   })
+
   // .body is from body parser
   ticket.save()
     .then(createdTicket => {
