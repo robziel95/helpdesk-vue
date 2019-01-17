@@ -7,6 +7,7 @@ export default {
       ticketFormData.append(key, inputTicket[key])
     }
     ticketFormData.append('uploadedFile', uploadedFile)
+    console.log('AAAAAAAAA')
     axios.post('http://localhost:3000/api/tickets', ticketFormData)
       .then(
         (responseData) => {
@@ -19,12 +20,11 @@ export default {
         }
       )
   },
-  getTickets: () => {
-    console.log('Before get')
+  getTickets: ({ commit }) => {
     axios.get('http://localhost:3000/api/tickets')
       .then(
         (ticketData) => {
-          let fetchedTicket = ticketData.data.tickets.map(
+          let fetchedTickets = ticketData.data.tickets.map(
             ticket => {
               return {
                 id: ticket._id,
@@ -39,7 +39,7 @@ export default {
               }
             }
           )
-          console.log(fetchedTicket)
+          commit('fetchTickets', fetchedTickets)
         }
       )
       .catch(

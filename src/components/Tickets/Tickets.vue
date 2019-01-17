@@ -2,17 +2,16 @@
   <v-container>
     <v-expansion-panel>
       <v-expansion-panel-content
-        v-for="(item,i) in 5"
-        :key="i"
-      >
-        <ticket-header slot="header" />
-        <ticket-body />
+        v-for="ticket in fetchedTickets" :key="ticket.id">
+        <ticket-header :title="ticket.title" :priority="ticket.priority" slot="header"/>
+        <ticket-body :ticket="ticket"/>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-container>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import ticketHeader from './Ticket-Header'
 import ticketBody from './Ticket-Body'
 
@@ -25,8 +24,12 @@ export default {
     this.$store.dispatch('getTickets')
   },
   computed: {
-    users () {
-      return this.$store.state.tickets.tickets
+    ...mapState([
+      'tickets'
+    ]),
+    fetchedTickets () {
+      // return this.$store.state.tickets.tickets
+      return this.tickets.tickets
     }
   },
   methods: {

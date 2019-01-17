@@ -53,24 +53,37 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
+import { mapActions } from 'vuex'
 
 export default {
   data () {
     return {
       ticketData: {
+        id: null,
         title: '',
         priority: '',
-        description: ''
+        description: '',
+        creator: null,
+        status: 'Unassigned',
+        creationDate: new Date().toISOString().slice(0, 10).replace(/-/g, '/'),
+        uploadedFilePath: null,
+        uploadedFileName: null
       }
     }
   },
   methods: {
+    ...mapActions([
+      'addTicket'
+    ]),
     onSubmit () {
       this.$v.$touch()
       if (this.$v.$invalid) {
-
+        return
       }
+      console.log(this.ticketData)
+      this.addTicket(this.ticketData)
     }
+
   },
   validations: {
     ticketData: {

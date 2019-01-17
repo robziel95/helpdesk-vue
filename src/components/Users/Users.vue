@@ -5,7 +5,7 @@
 
     <!-- <mat-spinner *ngIf="spinnerLoading"></mat-spinner> -->
     <section class="users-list" v-if="users.length > 0" >
-      <div v-for="user in users" :key="user.email" class="box">
+      <div v-for="user in users" :key="user.id" class="box">
         <div class="box__header">
           <div class="box__header__picture">
             <img :src="user.avatarPath" alt="User avatar">

@@ -60,7 +60,7 @@ router.post('/api/tickets', multer({ storage: fileStorage }).single('uploadedFil
       })
     })
     .catch(
-      error => {
+      () => {
         res.status(500).json({
           message: 'Creating a post failed!'
         })
@@ -111,7 +111,7 @@ router.put('/api/tickets/:id', checkAuth, multer({ storage: fileStorage }).singl
           }
         )
           .catch(
-            error => {
+            () => {
               res.status(500).json({
                 message: "Couldn't update post!"
               })
@@ -120,7 +120,7 @@ router.put('/api/tickets/:id', checkAuth, multer({ storage: fileStorage }).singl
       }
     )
     .catch(
-      error => {
+      () => {
         res.status(500).json({
           message: 'User authentication problem!'
         })
@@ -155,7 +155,7 @@ router.get('/api/tickets', (req, res, next) => {
       })
     })
     .catch(
-      error => {
+      () => {
         res.status(500).json({
           message: 'Fetching posts failed!'
         })
@@ -174,7 +174,7 @@ router.get('/api/tickets/:id', (req, res, next) => {
     }
   )
     .catch(
-      error => {
+      () => {
         res.status(500).json({
           message: 'Fetching post failed!'
         })
@@ -205,7 +205,7 @@ router.delete('/api/tickets/:id', checkAuth, (req, res, next) => {
           }
         )
           .catch(
-            error => {
+            () => {
               res.status(500).json({
                 message: 'Deleting post failed!'
               })
@@ -213,7 +213,7 @@ router.delete('/api/tickets/:id', checkAuth, (req, res, next) => {
           )
       }
     ).catch(
-      error => {
+      () => {
         res.status(500).json({
           message: 'User authentication problem!'
         })
