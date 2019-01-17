@@ -8,7 +8,6 @@
             @submit.prevent="onSubmit"
             ref="form"
           >
-
             <div class="formField" :class="{invalidField: $v.ticketData.title.$error}">
               <v-text-field
               v-model="ticketData.title"
@@ -53,7 +52,7 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   data () {
@@ -63,11 +62,11 @@ export default {
         priority: '',
         description: ''
       }
-    };
+    }
   },
   methods: {
     onSubmit () {
-      this.$v.$touch();
+      this.$v.$touch()
       if (this.$v.$invalid) {
 
       }
@@ -84,9 +83,8 @@ export default {
     }
 
   }
-};
+}
 </script>
 
 <style scoped lang="scss">
-
 </style>

@@ -11,12 +11,11 @@
 
             <div class="formField" :class="{invalidField: $v.userData.email.$error}">
               <v-text-field
-              type="email"
-              v-model="userData.email"
-              label="E-mail*"
-              @blur="$v.userData.email.$touch()"
-              >
-              </v-text-field>
+                v-model="userData.email"
+                type="email"
+                label="E-mail*"
+                @blur="$v.userData.email.$touch()"
+              />
 
               <p v-if="!$v.userData.email.email && $v.userData.email.$error" class="errorText">Please provide a valid email address.</p>
               <p v-if="!$v.userData.email.required && $v.userData.email.$error" class="errorText">This field must not be empty.</p>
@@ -24,39 +23,39 @@
 
             <div class="formField" :class="{invalidField: $v.userData.name.$error}">
               <v-text-field
-              v-model="userData.name"
-              label="Name*"
-              type="text"
-              @blur="$v.userData.name.$touch()"
-              ></v-text-field>
+                v-model="userData.name"
+                label="Name*"
+                type="text"
+                @blur="$v.userData.name.$touch()"
+              />
 
               <p v-if="!$v.userData.name.required && $v.userData.name.$error" class="errorText">This field must not be empty.</p>
             </div>
 
             <div class="formField" :class="{invalidField: $v.userData.surname.$error}">
               <v-text-field
-              v-model="userData.surname"
-              label="Surname*"
-              type="text"
-              @blur="$v.userData.surname.$touch()"
-              ></v-text-field>
+                v-model="userData.surname"
+                label="Surname*"
+                type="text"
+                @blur="$v.userData.surname.$touch()"
+              />
 
               <p v-if="!$v.userData.surname.required && $v.userData.surname.$error" class="errorText">This field must not be empty.</p>
             </div>
 
             <v-text-field
-            v-model="userData.nickname"
-            label="Nickname"
-            type="text"
-            ></v-text-field>
+              v-model="userData.nickname"
+              label="Nickname"
+              type="text"
+            />
 
             <div class="formField" :class="{invalidField: $v.userData.password.$error}">
               <v-text-field
-              type="password"
-              v-model="userData.password"
-              label="Password*"
-              @blur="$v.userData.password.$touch()"
-              ></v-text-field>
+                v-model="userData.password"
+                type="password"
+                label="Password*"
+                @blur="$v.userData.password.$touch()"
+              />
 
               <p v-if="!$v.userData.password.required && $v.userData.password.$error" class="errorText">This field must not be empty.</p>
               <p v-if="!$v.userData.password.minLength" class="errorText">Password must have at least  characters</p>
@@ -64,19 +63,23 @@
 
             <div class="formField" :class="{invalidField: $v.userData.confirmPassword.$error}">
               <v-text-field
-              type="password"
-              v-model="userData.confirmPassword"
-              label="Repeat password*"
-              @blur="$v.userData.confirmPassword.$touch()"
-              ></v-text-field>
+                v-model="userData.confirmPassword"
+                type="password"
+                label="Repeat password*"
+                @blur="$v.userData.confirmPassword.$touch()"
+              />
 
-              <p v-if="!$v.userData.confirmPassword.required && $v.userData.confirmPassword.$error" class="errorText">This field must not be empty.</p>
-              <p v-if="!$v.userData.confirmPassword.sameAs && $v.userData.confirmPassword.$error" class="errorText">Passwords do not match</p>
+              <p v-if="!$v.userData.confirmPassword.required && $v.userData.confirmPassword.$error"
+                class="errorText">This field must not be empty.
+              </p>
+              <p v-if="!$v.userData.confirmPassword.sameAs && $v.userData.confirmPassword.$error"
+                class="errorText">Passwords do not match
+              </p>
             </div>
 
             <v-btn
-            class="btn--cyan my-2 mx-0"
-            @click = onSubmit()
+              class="btn--cyan my-2 mx-0"
+              @click = onSubmit()
             >
               Create Account
             </v-btn>
@@ -88,7 +91,7 @@
 </template>
 
 <script>
-import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
+import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 
 export default {
   data () {
@@ -101,16 +104,16 @@ export default {
         password: '',
         confirmPassword: ''
       }
-    };
+    }
   },
   methods: {
     onSubmit () {
-      this.$v.$touch();
+      this.$v.$touch()
       if (this.$v.$invalid) {
-        return;
+        return
       }
-      console.log('dispatch');
-      this.$store.dispatch('addUser', this.userData);
+      console.log('dispatch')
+      this.$store.dispatch('addUser', this.userData)
     }
   },
   validations: {
@@ -136,7 +139,7 @@ export default {
     }
 
   }
-};
+}
 </script>
 
 <style scoped lang="scss">

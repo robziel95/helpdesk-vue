@@ -3,4 +3,4 @@ export default {
   text: null,
   timeout: 3500,
   multiline: false
-};
+}

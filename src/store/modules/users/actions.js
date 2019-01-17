@@ -1,18 +1,18 @@
-import axios from 'axios';
+import axios from 'axios'
 
 export default {
   addUser: (context, payload) => {
-    console.log('Axios post');
+    console.log('Axios post')
     axios.post('api/users/create', payload)
       .then(res => {
-        context.commit('showSnackbar', { text: 'New user has been added' });
-        context.dispatch('fetchUsers');
+        context.commit('showSnackbar', { text: 'New user has been added' })
+        context.dispatch('fetchUsers')
       }
       )
       .catch(err => {
-        console.log(err, 'user addition failed');
+        console.log(err, 'user addition failed')
       }
-      );
+      )
   },
   fetchUsers: (context) => {
     axios.get('api/users/').then(
@@ -27,27 +27,27 @@ export default {
             userType: user.userType,
             nickname: user.nickname,
             avatarPath: user.avatarPath
-          };
+          }
         }
-        );
+        )
         // console.log('fetchedUsers', fetchedUsers);
-        context.commit('fetchUsers', fetchedUsers);
+        context.commit('fetchUsers', fetchedUsers)
       }
-    );
+    )
   },
   deleteUser: (context, userId) => {
-    console.log(userId);
+    console.log(userId)
     axios.delete('http://localhost:3000/api/users/' + userId)
       .then(
         res => {
-          context.dispatch('fetchUsers');
-          context.commit('showSnackbar', { text: 'User successfully deleted' });
+          context.dispatch('fetchUsers')
+          context.commit('showSnackbar', { text: 'User successfully deleted' })
         }
       )
       .catch(
         res => {
-          context.commit('showSnackbar', { text: 'User deletion failed' });
+          context.commit('showSnackbar', { text: 'User deletion failed' })
         }
-      );
+      )
   }
-};
+}

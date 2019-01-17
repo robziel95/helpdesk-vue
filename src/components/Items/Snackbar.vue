@@ -3,10 +3,10 @@
     v-model="snackbar.visible"
     bottom
     right
-    :timeout="snackbar.timeout"
-    class="snackbar--cyan"
     color="$color-cyan"
-    :multi-line="snackbar.multiline === true">
+    :timeout="snackbar.timeout"
+    :multi-line="snackbar.multiline === true"
+    class="snackbar--cyan">
 
       {{ snackbar.text }}
 
@@ -15,17 +15,17 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations } from 'vuex'
 export default {
   computed: {
     snackbar () {
-      return this.$store.state.snackbar;
+      return this.$store.state.snackbar
     }
   },
   methods: {
     ...mapMutations(['closeSnackbar'])
   }
-};
+}
 </script>
 
 <style lang="scss">

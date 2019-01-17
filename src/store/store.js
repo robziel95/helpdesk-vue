@@ -1,11 +1,11 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import users from './modules/users/index';
-import snackbar from './modules/snackbar/index';
-import authentication from './modules/authentication/index';
-import tickets from './modules/tickets/index';
+import Vue from 'vue'
+import Vuex from 'vuex'
+import users from './modules/users/index'
+import snackbar from './modules/snackbar/index'
+import authentication from './modules/authentication/index'
+import tickets from './modules/tickets/index'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
@@ -19,4 +19,4 @@ export const store = new Vuex.Store({
     authentication,
     tickets
   }
-});
+})

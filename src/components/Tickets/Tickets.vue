@@ -13,17 +13,27 @@
 </template>
 
 <script>
-import ticketHeader from './Ticket-Header';
-import ticketBody from './Ticket-Body';
+import ticketHeader from './Ticket-Header'
+import ticketBody from './Ticket-Body'
 
 export default {
   components: {
     ticketHeader,
     ticketBody
+  },
+  beforeCreate () {
+    this.$store.dispatch('getTickets')
+  },
+  computed: {
+    users () {
+      return this.$store.state.tickets.tickets
+    }
+  },
+  methods: {
+
   }
-};
+}
 </script>
 
 <style scoped lang="scss">
-
 </style>

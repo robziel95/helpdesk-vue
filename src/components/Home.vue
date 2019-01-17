@@ -51,14 +51,11 @@
       </p>
       <p>Application uses - MongoDB, Express, Vue and NodeJS</p>
     </section>
-
   </v-container>
 </template>
 
 <script>
-
 export default {
-
 }
 </script>
 
