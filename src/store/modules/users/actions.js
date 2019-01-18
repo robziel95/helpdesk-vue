@@ -30,7 +30,6 @@ export default {
           }
         }
         )
-        // console.log('fetchedUsers', fetchedUsers);
         context.commit('fetchUsers', fetchedUsers)
       }
     )

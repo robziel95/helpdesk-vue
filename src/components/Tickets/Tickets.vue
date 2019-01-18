@@ -1,9 +1,9 @@
 <template>
   <v-container>
-    <v-expansion-panel>
+    <v-expansion-panel expand class="expansion-panel-modify">
       <v-expansion-panel-content
-        v-for="ticket in fetchedTickets" :key="ticket.id">
-        <ticket-header :title="ticket.title" :priority="ticket.priority" slot="header"/>
+        v-for="ticket in fetchedTickets" :key="ticket.id" class="expansion-modify">
+        <ticket-header :title="ticket.title" :status="ticket.status" slot="header"/>
         <ticket-body :ticket="ticket"/>
       </v-expansion-panel-content>
     </v-expansion-panel>
@@ -31,12 +31,17 @@ export default {
       // return this.$store.state.tickets.tickets
       return this.tickets.tickets
     }
-  },
-  methods: {
-
   }
 }
 </script>
 
 <style scoped lang="scss">
+  .expansion-panel-modify{
+    box-shadow: none!important;
+  }
+  .expansion-modify{
+    margin-bottom: 20px;
+    border: 1px solid $color-separator-grey;
+    @extend %material-shadow;
+  }
 </style>

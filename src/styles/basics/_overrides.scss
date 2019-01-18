@@ -1,0 +1,21 @@
+  // Style is global in order to overwrite material css
+  .v-expansion-panel{
+    &__header__icon .v-icon{
+      color: $color-cyan!important;
+    }
+    .body-content .v-icon{
+      color: $color-cyan!important;
+      font-size: 1.4rem;
+    }
+  }
+  .header-container .v-chip .v-chip__content{
+    cursor: pointer;
+    height: 28px;
+  }
+  @media only screen and (max-width: 600px) {
+    .expansion-modify{
+      .v-expansion-panel__header{
+        flex-direction: column;
+      }
+    }
+  }
