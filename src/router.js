@@ -3,8 +3,27 @@ import Router from 'vue-router'
 import Home from './components/Home.vue'
 import Login from './components/Auth/Login.vue'
 import Signup from './components/Auth/Signup.vue'
+import { store } from './store/store.js'
 
 Vue.use(Router)
+
+const ifAuthenticated = (to, from, next) => {
+  console.log(store)
+  if (store.getters.isAuthenticated) {
+    next()
+    return
+  }
+  next('/login')
+}
+
+const ifNotAuthenticated = (to, from, next) => {
+  console.log(store)
+  if (!store.getters.isAuthenticated) {
+    next()
+    return
+  }
+  next('/')
+}
 
 export default new Router({
   mode: 'history',
@@ -21,7 +40,8 @@ export default new Router({
 
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: Login
+      component: Login,
+      beforeEnter: ifNotAuthenticated
     },
     {
       path: '/Signup',
@@ -41,7 +61,8 @@ export default new Router({
     {
       path: '/Submit-Ticket',
       name: 'Ticket-Submit.vue',
-      component: () => import('./components/Tickets/Ticket-Submit.vue')
+      component: () => import('./components/Tickets/Ticket-Submit.vue'),
+      beforeEnter: ifAuthenticated
     },
     {
       path: '*',

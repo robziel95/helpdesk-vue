@@ -72,7 +72,10 @@ export default {
     ]),
     onLogout () {
       // this.$store.commit('showSnackbar', { text: 'You are now logged out' });
-      this.showSnackbar({ text: 'You are now logged out' })
+      this.$store.dispatch('authLogout')
+        .then(() => {
+          this.$router.push('/')
+        })
     }
   }
 }
