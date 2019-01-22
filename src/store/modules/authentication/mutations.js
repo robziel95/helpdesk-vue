@@ -2,19 +2,22 @@ export default {
   authRequest: (state) => {
     state.status = 'loading'
   },
-  authSuccess: (state, token, userId) => {
+  authSuccess: (state, payload) => {
     state.status = 'success'
-    state.token = token
-    state.userId = userId
+    state.token = payload.token
+    state.userId = payload.user.id
+    state.userType = payload.user.userType
   },
   authError: (state) => {
     state.status = 'error'
     state.token = ''
     state.userId = ''
+    state.userType = ''
   },
   authUserLogout: (state) => {
     state.status = ''
     state.token = ''
     state.userId = ''
+    state.userType = ''
   }
 }

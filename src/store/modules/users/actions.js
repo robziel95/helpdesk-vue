@@ -2,17 +2,20 @@ import axios from 'axios'
 
 export default {
   addUser: (context, payload) => {
-    console.log('Axios post')
-    axios.post('api/users/create', payload)
-      .then(res => {
-        context.commit('showSnackbar', { text: 'New user has been added' })
-        context.dispatch('fetchUsers')
-      }
-      )
-      .catch(err => {
-        console.log(err, 'user addition failed')
-      }
-      )
+    return new Promise((resolve, reject) => {
+      axios.post('api/users/create', payload)
+        .then(res => {
+          context.commit('showSnackbar', { text: 'New user has been added' })
+          context.dispatch('fetchUsers')
+          resolve()
+        }
+        )
+        .catch(err => {
+          console.log(err, 'user addition failed')
+          reject(err)
+        }
+        )
+    })
   },
   fetchUsers: (context) => {
     axios.get('api/users/').then(

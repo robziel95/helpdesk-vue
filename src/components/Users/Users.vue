@@ -40,13 +40,14 @@
             E-mail: <span>{{ user.email }}</span>
           </div>
         </div>
-        <div class="box__footer">
-            <v-btn color="error" @click="onDelete(user.id)">
-              Delete
-            </v-btn>
-            <v-btn class="btn--cyan">
-              Edit User
-            </v-btn>
+        <div v-if=(isLoggedIn)
+          class="box__footer">
+          <v-btn color="error" @click="onDelete(user.id)">
+            Delete
+          </v-btn>
+          <v-btn class="btn--cyan">
+            Edit User
+          </v-btn>
         </div>
       </div>
     </section>
@@ -65,6 +66,9 @@ export default {
   computed: {
     users () {
       return this.$store.state.users.users
+    },
+    isLoggedIn () {
+      return this.$store.getters.isAuthenticated
     }
   },
   methods: {

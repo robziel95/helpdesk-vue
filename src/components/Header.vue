@@ -8,9 +8,9 @@
         </v-toolbar-title>
         <v-spacer />
         <div class="hidden-xs-only">
-          <v-btn to="/Login">Sign In</v-btn>
-          <v-btn to="/Signup">Sign Up</v-btn>
-          <v-btn @click="onLogout()">Sign Out</v-btn>
+          <v-btn to="/Login" v-if="!isLoggedIn">Sign In</v-btn>
+          <v-btn to="/Signup" v-if="!isLoggedIn">Sign Up</v-btn>
+          <v-btn v-if="isLoggedIn" @click="onLogout()">Sign Out</v-btn>
         </div>
         <v-toolbar-side-icon
           @click="navbarDrawer = !navbarDrawer"
@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
 
 export default {
   data () {
@@ -66,12 +65,13 @@ export default {
       ]
     }
   },
+  computed: {
+    isLoggedIn () {
+      return this.$store.getters.isAuthenticated
+    }
+  },
   methods: {
-    ...mapMutations([
-      'showSnackbar'
-    ]),
     onLogout () {
-      // this.$store.commit('showSnackbar', { text: 'You are now logged out' });
       this.$store.dispatch('authLogout')
         .then(() => {
           this.$router.push('/')
