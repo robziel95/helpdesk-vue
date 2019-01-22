@@ -7,8 +7,8 @@ export default {
         .then(resp => {
           const user = resp.data.loggedUser
           const token = resp.data.token
-          localStorage.setItem('user-id', user.id)
-          localStorage.setItem('user-token', token)
+          localStorage.setItem('userId', user.id)
+          localStorage.setItem('token', token)
 
           axios.defaults.headers.common['Authorization'] = token
           // const expiresIn = resp.data.expiresIn
@@ -19,8 +19,8 @@ export default {
         ).catch(err => {
           console.log(err)
           context.commit('authError', err)
-          localStorage.removeItem('user-token')
-          localStorage.removeItem('user-id')
+          localStorage.removeItem('token')
+          localStorage.removeItem('userId')
           context.commit('showSnackbar', { text: 'Login failed' })
           reject(err)
         }
@@ -32,7 +32,8 @@ export default {
     return new Promise((resolve, reject) => {
       commit('authUserLogout')
       commit('showSnackbar', { text: 'You are now logged out' })
-      localStorage.removeItem('user-token') // clear your user's token from localstorage
+      localStorage.removeItem('token') // clear your user's token from localstorage
+      delete axios.defaults.headers.common['Authorization']
       resolve()
     })
   }

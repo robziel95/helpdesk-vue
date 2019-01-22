@@ -46,7 +46,8 @@ export default new Router({
     {
       path: '/Signup',
       name: 'Signup.vue',
-      component: Signup
+      component: Signup,
+      beforeEnter: ifNotAuthenticated
     },
     {
       path: '/Tickets',
