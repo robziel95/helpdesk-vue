@@ -20,7 +20,6 @@ const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     // below will be passed null if extension is not in mime type map const
     const isValid = MIME_TYPE_MAP[file.mimetype]
-    console.log(file.mimetype)
     let error = new Error('Invalid file type')
     if (isValid) {
       // omit error

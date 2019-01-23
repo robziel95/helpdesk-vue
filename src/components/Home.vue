@@ -9,7 +9,7 @@
             <div class="section-info__block__content">
               <div>
                 <v-icon>panorama_fish_eye</v-icon>
-                <span>12</span>
+                <span>{{ usersAmount }}</span>
               </div>
             </div>
           </div>
@@ -20,7 +20,7 @@
             <div class="section-info__block__content">
               <div>
                 <v-icon>panorama_fish_eye</v-icon>
-                <span>50</span>
+                <span>{{ ticketsSubmittedAmount }}</span>
               </div>
             </div>
           </div>
@@ -31,7 +31,7 @@
               <div class="section-info__block__content">
                 <div>
                   <v-icon>panorama_fish_eye</v-icon>
-                  <span>70</span>
+                  <span>{{ ticketsResolvedAmount }}</span>
                 </div>
               </div>
             </div>
@@ -55,7 +55,25 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
+  computed: {
+    ...mapGetters([
+      'totalSubmittedTickets',
+      'totalResolvedTickets',
+      'totalUsers'
+    ]),
+    ticketsSubmittedAmount () {
+      return this.totalSubmittedTickets
+    },
+    ticketsResolvedAmount () {
+      return this.totalResolvedTickets
+    },
+    usersAmount () {
+      return this.totalUsers
+    }
+  }
 }
 </script>
 

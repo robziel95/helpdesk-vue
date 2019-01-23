@@ -1,5 +1,15 @@
 <template>
   <v-container>
+    <h2 class="section-title">Ticket list</h2>
+    <v-layout row wrap>
+      <v-flex xs12 sm6 md3>
+        <v-text-field
+          label="Search"
+          type="search"
+          append-icon="search"
+        />
+      </v-flex>
+    </v-layout>
     <v-expansion-panel expand class="expansion-panel-modify">
       <v-expansion-panel-content
         v-for="ticket in fetchedTickets" :key="ticket.id" class="expansion-modify">

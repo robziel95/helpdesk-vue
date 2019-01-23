@@ -8,7 +8,6 @@ import { store } from './store/store.js'
 Vue.use(Router)
 
 const ifAuthenticated = (to, from, next) => {
-  console.log(store)
   if (store.getters.isAuthenticated) {
     next()
     return
@@ -17,7 +16,6 @@ const ifAuthenticated = (to, from, next) => {
 }
 
 const ifNotAuthenticated = (to, from, next) => {
-  console.log(store)
   if (!store.getters.isAuthenticated) {
     next()
     return

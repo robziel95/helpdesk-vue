@@ -14,7 +14,6 @@ export default {
 
           axios.defaults.headers.common['Authorization'] = token
           // const expiresIn = resp.data.expiresIn
-          console.log(user)
           context.commit('authSuccess', { token, user })
           context.commit('showSnackbar', { text: 'Successful sign in' })
           resolve(resp)

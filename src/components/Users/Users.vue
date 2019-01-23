@@ -3,7 +3,16 @@
   <v-container>
     <h2 class="section-title">Users list</h2>
 
-    <!-- <mat-spinner *ngIf="spinnerLoading"></mat-spinner> -->
+    <v-layout row wrap>
+      <v-flex xs12 sm6 md3>
+        <v-text-field
+          v-model="search"
+          label="Search"
+          type="search"
+          append-icon="search"
+        />
+      </v-flex>
+    </v-layout>
     <section class="users-list" v-if="users.length > 0" >
       <div v-for="user in users" :key="user.id" class="box">
         <div class="box__header">
@@ -63,9 +72,23 @@ export default {
   beforeCreate () {
     this.$store.dispatch('fetchUsers')
   },
+  data () {
+    return {
+      search: ''
+    }
+  },
   computed: {
     users () {
-      return this.$store.state.users.users
+      console.log(this.search)
+      return this.$store.state.users.users.filter(user => {
+        return (
+          (user.email.toLowerCase().includes(this.search.toLowerCase())) ||
+          (user.name.toLowerCase().includes(this.search.toLowerCase())) ||
+          (user.nickname.toLowerCase().includes(this.search.toLowerCase())) ||
+          (user.surname.toLowerCase().includes(this.search.toLowerCase())) ||
+          (user.userType.toLowerCase().includes(this.search.toLowerCase()))
+        )
+      })
     },
     isLoggedIn () {
       return this.$store.getters.isAuthenticated

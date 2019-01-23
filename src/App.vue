@@ -19,6 +19,10 @@ export default {
     appHeader: Header,
     snackbarStore
   },
+  beforeCreate () {
+    this.$store.dispatch('getTickets')
+    this.$store.dispatch('fetchUsers')
+  },
   created: () => {
     axios.interceptors.response.use(undefined, function (err) {
       return new Promise(function (resolve, reject) {
