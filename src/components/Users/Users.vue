@@ -79,7 +79,6 @@ export default {
   },
   computed: {
     users () {
-      console.log(this.search)
       return this.$store.state.users.users.filter(user => {
         return (
           (user.email.toLowerCase().includes(this.search.toLowerCase())) ||

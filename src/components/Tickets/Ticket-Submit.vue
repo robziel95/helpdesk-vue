@@ -22,10 +22,18 @@
 
             <div class="formField">
               <v-select
+                v-model="formData.status"
+                item-value="Unassigned"
+                label="Status"
+                :items="statusList"/>
+            </div>
+
+            <div class="formField">
+              <v-select
                 v-model="formData.priority"
                 item-value="Unassigned"
                 label="Priority"
-                :items="statusList"/>
+                :items="priorityList"/>
             </div>
 
             <div class="formField" :class="{invalidField: $v.formData.description.$error}">
@@ -59,10 +67,12 @@ import { mapActions } from 'vuex'
 export default {
   data () {
     return {
+      priorityList: ['Low', 'Normal', 'High'],
       statusList: this.$store.state.tickets.statusList,
       formData: {
         title: '',
-        priority: 'Unassigned',
+        status: 'Unassigned',
+        priority: 'Low',
         description: ''
       }
     }
