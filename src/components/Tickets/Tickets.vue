@@ -1,33 +1,52 @@
 <template>
   <v-container>
-    <h2 class="section-title">Ticket list</h2>
-    <v-layout row wrap align-end>
-      <p>Sort by:</p>
+    <v-layout row wrap align-end justify-space-between class="filterPanel">
+      <h2 class="section-title">Ticket list</h2>
       <div>
-        <v-select
-          label="Status"
-          :items="statusList"
-          v-model="statusFilter"
-          @change="onFilterChange()"/>
-      </div>
-      <div>
-        <v-select
-          label="Priority"
-          :items="priorityList"
-          v-model="priorityFilter"
-          @change="onFilterChange()"/>
-      </div>
-      <div>
-        <v-select
-          label="Date"
-          :items="dateFilterOptions"
-          v-model="dateFilter"
-          @change="onFilterChange()"/>
-      </div>
-      <div>
-        <v-btn icon @click="onClearFilters">
-          <v-icon>close</v-icon>
-        </v-btn>
+        <v-layout row wrap align-end class="filterPanel__fields-container">
+        <p class="filterPanel__name">Filter by:</p>
+        <div>
+          <v-select
+            :items="statusList"
+            label="Status"
+            v-model="statusFilter"
+            class="filterPanel__field"
+
+            @change="onFilterChange()"/>
+        </div>
+        <div>
+          <v-select
+            :items="priorityList"
+            label="Priority"
+            v-model="priorityFilter"
+            class="filterPanel__field"
+            deletable-chips
+            @change="onFilterChange()"/>
+        </div>
+        <div>
+          <v-select
+            :items="dateFilterOptions"
+            label="Date"
+            v-model="dateFilter"
+            class="filterPanel__field"
+            append-outer-icon
+            deletable-chips
+            @change="onFilterChange()">
+          </v-select>
+        </div>
+        <div>
+          <v-btn
+            v-if="statusFilter || dateFilter || priorityFilter"
+            class="filterPanel__clear"
+            flat
+            @click="onClearFilters">
+            Clear all
+            <v-icon>
+              close
+            </v-icon>
+          </v-btn>
+        </div>
+        </v-layout>
       </div>
     </v-layout>
     <v-expansion-panel expand class="expansion-panel-modify">
@@ -76,7 +95,6 @@ export default {
   methods: {
     onFilterChange () {
       let ticketsChanged = [...this.fetchedTickets]
-      console.log(ticketsChanged)
       if (this.statusFilter) {
         ticketsChanged = ticketsChanged.filter(ticket => {
           return (
@@ -107,7 +125,6 @@ export default {
         }
       }
       this.filteredTickets = ticketsChanged
-      console.log(this.filteredTickets)
     },
     onClearFilters () {
       this.statusFilter = null
@@ -120,12 +137,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .expansion-panel-modify{
-    box-shadow: none!important;
-  }
-  .expansion-modify{
-    margin-bottom: 20px;
-    border: 1px solid $color-separator-grey;
-    @extend %material-shadow;
-  }
+  @import "../../styles/components/tickets/_tickets.scss";
 </style>
