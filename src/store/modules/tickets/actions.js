@@ -2,51 +2,61 @@ import axios from 'axios'
 
 export default {
   addTicket: (context, inputTicket) => {
-    let ticketFormData = new FormData()
-    for (var key in inputTicket) {
-      ticketFormData.append(key, inputTicket[key])
-    }
-    ticketFormData.append('uploadedFile', 'uploadedFile')
-    console.log(inputTicket)
-    axios.post('http://localhost:3000/api/tickets', inputTicket)
-      .then(
-        (responseData) => {
-          console.log('SUCCESS')
-        }
-      )
-      .catch(
-        err => {
-          console.log(err, 'Add ticket failed')
-        }
-      )
+    return new Promise((resolve, reject) => {
+      let ticketFormData = new FormData()
+      for (var key in inputTicket) {
+        ticketFormData.append(key, inputTicket[key])
+      }
+      ticketFormData.append('uploadedFile', 'uploadedFile')
+      console.log(inputTicket)
+      axios.post('http://localhost:3000/api/tickets', inputTicket)
+        .then(
+          (responseData) => {
+            context.commit('showSnackbar', { text: 'Ticket successfully added' })
+            resolve()
+          }
+        )
+        .catch(
+          err => {
+            console.log(err, 'Add ticket failed')
+            context.commit('showSnackbar', { text: 'Ticket addition failed' })
+            reject(err)
+          }
+        )
+    })
   },
   getTickets: ({ commit }) => {
-    axios.get('http://localhost:3000/api/tickets')
-      .then(
-        (ticketData) => {
-          let fetchedTickets = ticketData.data.tickets.map(
-            ticket => {
-              return {
-                id: ticket._id,
-                title: ticket.title,
-                priority: ticket.priority,
-                description: ticket.description,
-                creator: ticket.creator,
-                status: ticket.status,
-                creationDate: ticket.creationDate,
-                uploadedFilePath: ticket.uploadedFilePath,
-                uploadedFileName: ticket.uploadedFileName
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:3000/api/tickets')
+        .then(
+          (ticketData) => {
+            let fetchedTickets = ticketData.data.tickets.map(
+              ticket => {
+                return {
+                  id: ticket._id,
+                  title: ticket.title,
+                  priority: ticket.priority,
+                  description: ticket.description,
+                  creator: ticket.creator,
+                  status: ticket.status,
+                  creationDate: ticket.creationDate,
+                  uploadedFilePath: ticket.uploadedFilePath,
+                  uploadedFileName: ticket.uploadedFileName
+                }
               }
-            }
-          )
-          commit('fetchTickets', fetchedTickets)
-        }
-      )
-      .catch(
-        err => {
-          console.log(err, 'Get tickets failed')
-        }
-      )
+            )
+            resolve()
+            commit('fetchTickets', fetchedTickets)
+          }
+        )
+        .catch(
+          err => {
+            console.log(err, 'Get tickets failed')
+            reject(err)
+            // TODO error modal
+          }
+        )
+    })
   },
   getTicket: (ticketId) => {
     return axios.get('http://localhost:3000/api/tickets/' + ticketId)

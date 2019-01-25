@@ -36,16 +36,27 @@
                 :items="priorityList"/>
             </div>
 
-            <div class="formField" :class="{invalidField: $v.formData.description.$error}">
-              <v-text-field
-              v-model="formData.description"
-              label="Title*"
-              @blur="$v.formData.description.$touch()"/>
-
-              <p v-if="!$v.formData.description.required && $v.formData.description.$error"
-                class="errorText">
-                This field must not be empty.
-              </p>
+            <div class="custom-textarea">
+              <div @input="updateHtml($event)"
+                ref="customTextareaContenteditable"
+                id ="customTextareaContenteditable"
+                @blur="$v.formData.description.$touch()"
+                contenteditable="true"
+                class="custom-textarea__editableDiv"/>
+              <div class="formField" :class="{invalidField: $v.formData.description.$error}">
+                <v-textarea
+                v-model="formData.description"
+                label="Description*"
+                id ="customTextareaInput"
+                type="hidden"
+                class="custom-textarea__input"
+                @blur="$v.formData.description.$touch()">
+                </v-textarea>
+                <p v-if="!$v.formData.description.required && $v.formData.description.$error"
+                  class="errorText">
+                  This field must not be empty.
+                </p>
+              </div>
             </div>
 
             <v-btn
@@ -74,8 +85,11 @@ export default {
         status: 'Unassigned',
         priority: 'Low',
         description: ''
-      }
+      },
+      innerDivHtml: ''
     }
+  },
+  computed: {
   },
   methods: {
     ...mapActions([
@@ -98,6 +112,13 @@ export default {
         uploadedFileName: null
       }
       this.addTicket(ticketData)
+        .then(() => {
+          this.$router.push('/tickets')
+        })
+    },
+    updateHtml: function (e) {
+      this.formData.description = e.target.innerHTML
+      document.getElementById('customTextareaInput').style.height = this.$refs.customTextareaContenteditable.offsetHeight + 'px'
     }
   },
   validations: {
@@ -115,4 +136,33 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .custom-textarea{
+    position: relative;
+    &__editableDiv{
+      position: absolute;
+      margin-top: 4px;
+      padding-top: 8px;
+      z-index: 1;
+      top: 20px;
+      left: 0;
+      min-height: 50px;
+      height: auto;
+      width: 100%;
+      color: $color-font-dark;
+      overflow: hidden;
+      outline: none;
+      display:block;
+      color: rgba(0,0,0,0.87);
+      font-size: 1.17rem;
+    }
+    &__input{
+      /deep/ textarea{
+        visibility: hidden;
+        height: 50px;
+      }
+      /deep/ .v-label{
+        top: 20px;
+      }
+    }
+  }
 </style>

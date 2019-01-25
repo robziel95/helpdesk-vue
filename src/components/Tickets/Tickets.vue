@@ -11,7 +11,6 @@
             label="Status"
             v-model="statusFilter"
             class="filterPanel__field"
-
             @change="onFilterChange()"/>
         </div>
         <div>
@@ -82,6 +81,12 @@ export default {
   },
   beforeCreate () {
     this.$store.dispatch('getTickets')
+      .then(() => {
+        // TODO - spinner
+      })
+      .catch(() => {
+        // TODO - spinner
+      })
   },
   computed: {
     ...mapState([

@@ -11,7 +11,7 @@ export default {
         }
         )
         .catch(err => {
-          console.log(err, 'user addition failed')
+          context.commit('showSnackbar', { text: 'User addition failed' })
           reject(err)
         }
         )
