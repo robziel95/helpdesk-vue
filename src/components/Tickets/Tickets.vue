@@ -4,6 +4,18 @@
       <h2 class="section-title">Ticket list</h2>
       <div>
         <v-layout row wrap align-end class="filterPanel__fields-container">
+        <div>
+          <v-btn
+            v-if="statusFilter || dateFilter || priorityFilter"
+            class="filterPanel__clear"
+            flat
+            @click="onClearFilters">
+            Clear all
+            <v-icon>
+              close
+            </v-icon>
+          </v-btn>
+        </div>
         <p class="filterPanel__name">Filter by:</p>
         <div>
           <v-select
@@ -32,18 +44,6 @@
             deletable-chips
             @change="onFilterChange()">
           </v-select>
-        </div>
-        <div>
-          <v-btn
-            v-if="statusFilter || dateFilter || priorityFilter"
-            class="filterPanel__clear"
-            flat
-            @click="onClearFilters">
-            Clear all
-            <v-icon>
-              close
-            </v-icon>
-          </v-btn>
         </div>
         </v-layout>
       </div>

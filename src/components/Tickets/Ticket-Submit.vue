@@ -35,7 +35,7 @@
                 label="Priority"
                 :items="priorityList"/>
             </div>
-
+            <text-editor/>
             <div class="custom-textarea">
               <div @input="updateHtml($event)"
                 ref="customTextareaContenteditable"
@@ -74,6 +74,7 @@
 <script>
 import { required } from 'vuelidate/lib/validators'
 import { mapActions } from 'vuex'
+import textEditor from '../Items/Text-editor'
 
 export default {
   data () {
@@ -89,7 +90,8 @@ export default {
       innerDivHtml: ''
     }
   },
-  computed: {
+  components: {
+    textEditor
   },
   methods: {
     ...mapActions([
@@ -154,6 +156,9 @@ export default {
       display:block;
       color: rgba(0,0,0,0.87);
       font-size: 1.17rem;
+      img{
+
+      }
     }
     &__input{
       /deep/ textarea{
@@ -164,5 +169,10 @@ export default {
         top: 20px;
       }
     }
+  }
+  /deep/ .my-icons{
+    display: inline-block;
+    height: 1.1em;
+    width: 1.1em;
   }
 </style>
