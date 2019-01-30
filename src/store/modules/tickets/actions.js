@@ -76,6 +76,7 @@ export default {
       .then(
         response => {
           context.commit('showSnackbar', { text: 'Ticket deleted successfully' })
+          context.commit('deleteTicket', ticketId)
         }
       )
       .catch(
