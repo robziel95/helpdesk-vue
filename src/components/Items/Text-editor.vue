@@ -192,17 +192,8 @@ export default {
     list-style-type: none;
     padding: 0;
 
-    v-btn{
-      background-color: #FAFAFA;
-      border: 1px solid #BDBDBD;
-      margin-right: 5px;
-      margin-bottom: 5px;
-      &:hover{
-        background-color: #BABABA;
-      }
-      i{
-        margin: 0;
-      }
+    .v-btn{
+      margin: 0;
     }
   }
 }
@@ -210,6 +201,7 @@ export default {
   margin: 0;
   padding: 5px;
   max-width: 400px;
+  background-color: #fff;
   &__emojis{
     display: flex;
     justify-content: flex-start;

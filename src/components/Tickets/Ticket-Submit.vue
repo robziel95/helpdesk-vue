@@ -142,8 +142,7 @@ export default {
     position: relative;
     &__editableDiv{
       position: absolute;
-      margin-top: 4px;
-      padding-top: 8px;
+      padding: 12px 0;
       z-index: 1;
       top: 20px;
       left: 0;
@@ -156,9 +155,6 @@ export default {
       display:block;
       color: rgba(0,0,0,0.87);
       font-size: 1.17rem;
-      img{
-
-      }
     }
     &__input{
       /deep/ textarea{
@@ -172,7 +168,8 @@ export default {
   }
   /deep/ .my-icons{
     display: inline-block;
-    height: 1.1em;
-    width: 1.1em;
+    height: 1.2em;
+    width: 1.2em;
+    margin-bottom: -4px;
   }
 </style>
