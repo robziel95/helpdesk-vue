@@ -37,7 +37,7 @@ router.post('/api/users/create', multer({ storage: avatarStorage }).single('avat
   console.log(req.body.name)
   bcrypt.hash(req.body.password, 10).then(
     hash => {
-      let reqAvatarPath = (req.file !== undefined ? (url + '/files/images/' + req.file.filename) : undefined)
+      let reqAvatarPath = (req.file !== undefined ? (url + '/images/' + req.file.filename) : undefined)
       const user = new User({
         name: req.body.name,
         surname: req.body.surname,

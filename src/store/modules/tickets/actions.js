@@ -71,7 +71,17 @@ export default {
         }
       )
   },
-  deleteTicket (ticketId) {
-    return axios.delete('http://localhost:3000/api/tickets/' + ticketId)
+  deleteTicket (context, ticketId) {
+    axios.delete('http://localhost:3000/api/tickets/' + ticketId)
+      .then(
+        response => {
+          context.commit('showSnackbar', { text: 'Ticket deleted successfully' })
+        }
+      )
+      .catch(
+        () => {
+          context.commit('showSnackbar', { text: 'Ticket deletion failed' })
+        }
+      )
   }
 }

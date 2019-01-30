@@ -74,7 +74,7 @@ router.put('/api/tickets/:id', checkAuth, multer({ storage: fileStorage }).singl
   let reqUploadedFilePath = (req.file !== undefined ? (url + '/files/upload/' + req.file.filename) : req.body.uploadedFilePath)
   let reqUploadedFileName = (req.file !== undefined ? req.file.filename : null)
   // 'null' because FormData object which is sent with request transforms null to 'null'
-  if (reqUploadedFilePath == 'null') {
+  if (reqUploadedFilePath === 'null') {
     reqUploadedFilePath = undefined
   }
   const ticket = new Ticket({
@@ -93,7 +93,7 @@ router.put('/api/tickets/:id', checkAuth, multer({ storage: fileStorage }).singl
   User.findById(req.userData.userId)
     .then(
       user => {
-        if (user.userType == 'administrator') {
+        if (user.userType === 'administrator') {
         // If user sending request is admin -- update post by id only
           updateTicket = Ticket.updateOne({ _id: req.params.id }, ticket)
         } else {
@@ -188,7 +188,7 @@ router.delete('/api/tickets/:id', checkAuth, (req, res, next) => {
   User.findById(req.userData.userId)
     .then(
       user => {
-        if (user.userType == 'administrator') {
+        if (user.userType === 'administrator') {
         // If user sending request is admin -- delete post by id
           deleteTicket = Ticket.deleteOne({ _id: req.params.id })
         } else {
@@ -204,14 +204,13 @@ router.delete('/api/tickets/:id', checkAuth, (req, res, next) => {
               res.status(401).json({ message: 'Not authorized!' })
             }
           }
+        ).catch(
+          () => {
+            res.status(500).json({
+              message: 'Deleting post failed!'
+            })
+          }
         )
-          .catch(
-            () => {
-              res.status(500).json({
-                message: 'Deleting post failed!'
-              })
-            }
-          )
       }
     ).catch(
       () => {

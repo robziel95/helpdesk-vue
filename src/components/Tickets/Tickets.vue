@@ -53,6 +53,15 @@
         v-for="ticket in ((filteredTickets) ? filteredTickets : fetchedTickets)" :key="ticket.id" class="expansion-modify">
         <ticket-header :title="ticket.title" :status="ticket.status" slot="header"/>
         <ticket-body :ticket="ticket"/>
+        <div v-if=(isLoggedIn)
+          class="expansion-panel__foter">
+          <v-btn color="error" @click="onDelete(ticket.id)">
+            Delete
+          </v-btn>
+          <v-btn class="btn--cyan">
+            Edit Ticket
+          </v-btn>
+        </div>
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-container>
@@ -95,6 +104,9 @@ export default {
     fetchedTickets () {
       // return this.$store.state.tickets.tickets
       return this.tickets.tickets
+    },
+    isLoggedIn () {
+      return this.$store.getters.isAuthenticated
     }
   },
   methods: {
@@ -136,6 +148,9 @@ export default {
       this.priorityFilter = null
       this.dateFilter = null
       this.onFilterChange()
+    },
+    onDelete (ticketId) {
+      this.$store.dispatch('deleteTicket', ticketId)
     }
   }
 }

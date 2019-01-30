@@ -191,7 +191,7 @@ export default {
     text-decoration: none;
     list-style-type: none;
     padding: 0;
-
+    margin-bottom: -15px;
     .v-btn{
       margin: 0;
     }

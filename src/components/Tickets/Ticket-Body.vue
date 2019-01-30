@@ -1,7 +1,6 @@
 <template>
   <div class="body-content">
-    <div class="body-content__text">
-      {{ ticket.description }}
+    <div class="body-content__text" v-html="ticket.description">
     </div>
     <div class="body-content__info">
       <div class="body-content__info__priority">

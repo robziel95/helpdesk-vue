@@ -166,10 +166,4 @@ export default {
       }
     }
   }
-  /deep/ .my-icons{
-    display: inline-block;
-    height: 1.2em;
-    width: 1.2em;
-    margin-bottom: -4px;
-  }
 </style>
