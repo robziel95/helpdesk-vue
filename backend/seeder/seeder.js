@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
-const Ticket = require('../models/ticket');
-const User = require('../models/user');
+const mongoose = require('mongoose')
+const Ticket = require('../models/ticket')
+const User = require('../models/user')
 
 mongoose.connect(
   // 'mongodb://localhost:27017/helpdesk'
   // "mongodb+srv://robz:EnyhIPVvwPUkeqeE@cluster0-zpzps.mongodb.net/helpdesk?retryWrites=true"
   // 'mongodb+srv://robz:EnyhIPVvwPUkeqeE@cluster0-zpzps.mongodb.net/helpdesk-vue?retryWrites=true'
   'mongodb://localhost:27017/helpdesk-vue'
-);
+)
 
 var users = [
   new User(
@@ -15,7 +15,7 @@ var users = [
       'userType': 'administrator',
       'name': 'John',
       'surname': 'Doe',
-      'email': 'test2@test.com',
+      'email': 'test@test.com',
       'password': '$2b$10$gWHKRbbFrojKg8Tl/SDEHuu0BngC8BaXv1vu/fnbNRFfh9fZGsWsK',
       '__v': 0,
       'nickname': 'Johnnie',
@@ -133,20 +133,20 @@ var users = [
       'avatarPath': 'http://localhost:3000/images/missing_user_avatar.png'
     }
   )
-];
+]
 
-var ticketsSeedFinished = false;
-var usersSeedFinished = false;
-var usersCount = 0;
+var ticketsSeedFinished = false
+var usersSeedFinished = false
+var usersCount = 0
 
 for (var i = 0; i < users.length; i++) {
   users[i].save(function () {
-    usersCount++;
+    usersCount++
     if (usersCount === users.length) {
-      usersSeedFinished = true;
-      populateTickets();
+      usersSeedFinished = true
+      populateTickets()
     }
-  });
+  })
 }
 
 function populateTickets () {
@@ -243,23 +243,23 @@ function populateTickets () {
         'uploadedFileName': null
       }
     )
-  ];
+  ]
 
-  var ticketsCount = 0;
+  var ticketsCount = 0
   for (var j = 0; j < tickets.length; j++) {
     tickets[j].save(function () {
-      ticketsCount++;
+      ticketsCount++
       if (ticketsCount === tickets.length) {
-        ticketsSeedFinished = true;
-        exit();
+        ticketsSeedFinished = true
+        exit()
       }
-    });
+    })
   }
 }
 
 function exit () {
   if (usersSeedFinished && ticketsSeedFinished) {
-    console.log('Seed successfull');
-    mongoose.disconnect();
+    console.log('Seed successfull')
+    mongoose.disconnect()
   }
 }
