@@ -8,7 +8,6 @@ export default {
         ticketFormData.append(key, inputTicket[key])
       }
       ticketFormData.append('uploadedFile', 'uploadedFile')
-      console.log(inputTicket)
       axios.post('http://localhost:3000/api/tickets', inputTicket)
         .then(
           (responseData) => {
@@ -20,6 +19,27 @@ export default {
           err => {
             console.log(err, 'Add ticket failed')
             context.commit('showSnackbar', { text: 'Ticket addition failed' })
+            reject(err)
+          }
+        )
+    })
+  },
+  updateTicket ({ state }, inputTicket, uploadedFile = null) {
+    return new Promise((resolve, reject) => {
+      let inputTicketFormData = new FormData()
+      for (var key in inputTicket) {
+        inputTicketFormData.append(key, inputTicket[key])
+      }
+      if (uploadedFile !== null) {
+        inputTicketFormData.set('uploadedFile', uploadedFile)
+      }
+      axios.put('http://localhost:3000/api/tickets/' + inputTicket.id, inputTicketFormData)
+        .then(
+          (response) => {
+            resolve()
+          }
+        ).catch(
+          err => {
             reject(err)
           }
         )
@@ -58,18 +78,20 @@ export default {
         )
     })
   },
-  getTicket: (ticketId) => {
-    return axios.get('http://localhost:3000/api/tickets/' + ticketId)
-      .then(
-        response => {
-          console.log(response, 'Get ticket success')
-        }
-      )
-      .catch(
-        err => {
-          console.log(err, 'Get tickets failed')
-        }
-      )
+  getTicket: ({ state }, ticketId) => {
+    return new Promise((resolve, reject) => {
+      return axios.get('http://localhost:3000/api/tickets/' + ticketId)
+        .then(
+          res => {
+            resolve(res.data)
+          }
+        )
+        .catch(
+          err => {
+            reject(err)
+          }
+        )
+    })
   },
   deleteTicket (context, ticketId) {
     axios.delete('http://localhost:3000/api/tickets/' + ticketId)

@@ -58,7 +58,7 @@
           <v-btn color="error" @click="onDelete(ticket.id)">
             Delete
           </v-btn>
-          <v-btn class="btn--cyan">
+          <v-btn :to="`/Submit-Ticket/${ticket.id}`" class="btn--cyan">
             Edit Ticket
           </v-btn>
         </div>

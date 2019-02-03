@@ -13,14 +13,13 @@
               label="Title*"
               @blur="$v.formData.title.$touch()"/>
 
-              <!-- <p v-if="!$v.formData.title.required && $v.formData.title.$error && $v.formData.title.$dirty" class="errorText">This field must not be empty.</p> -->
               <p v-if="!$v.formData.title.required && $v.formData.title.$error"
                 class="errorText">
                 This field must not be empty.
               </p>
             </div>
 
-            <div class="formField">
+            <div v-if="isAdmin" class="formField">
               <v-select
                 v-model="formData.status"
                 item-value="Unassigned"
@@ -28,10 +27,9 @@
                 :items="statusList"/>
             </div>
 
-            <div class="formField">
+            <div  class="formField">
               <v-select
                 v-model="formData.priority"
-                item-value="Unassigned"
                 label="Priority"
                 :items="priorityList"/>
             </div>
@@ -40,6 +38,7 @@
               <div @input="updateHtml($event)"
                 ref="customTextareaContenteditable"
                 id ="customTextareaContenteditable"
+                v-html="innerDivHtml"
                 @blur="$v.formData.description.$touch()"
                 contenteditable="true"
                 class="custom-textarea__editableDiv"/>
@@ -73,7 +72,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
-import { mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import textEditor from '../Items/Text-editor'
 
 export default {
@@ -82,12 +81,57 @@ export default {
       priorityList: ['Low', 'Normal', 'High'],
       statusList: this.$store.state.tickets.statusList,
       formData: {
+        id: null,
         title: '',
         status: 'Unassigned',
         priority: 'Low',
-        description: ''
+        description: '',
+        creator: null,
+        creationDate: null,
+        uploadedFilePath: null,
+        uploadedFileName: null
       },
-      innerDivHtml: ''
+      innerDivHtml: '',
+      editMode: false
+    }
+  },
+  computed: {
+    ...mapState([
+      'authentication'
+    ]),
+    ...mapGetters([
+      'isAuthenticated',
+      'isAdmin',
+      'userData'
+    ])
+  },
+  created () {
+    let routeTicketId = this.$route.params.id
+    if (routeTicketId) {
+      this.$store.dispatch('getTicket', routeTicketId)
+        .then((res) => {
+          this.editMode = true
+
+          this.formData.id = res._id
+          this.formData.title = res.title
+          this.formData.status = res.status
+          this.formData.priority = res.priority
+          this.formData.description = res.description
+          this.innerDivHtml = res.description
+          this.formData.creator = res.creator
+          this.formData.creationDate = res.creationDate
+          this.formData.uploadedFilePath = res.uploadedFilePath
+          this.formData.uploadedFileName = res.uploadedFileName
+
+          // Update height of div, after form (code above) is filled with data
+          Promise.resolve().then(() => {
+            this.updateDivHeight()
+          })
+        })
+        .catch((err) => {
+          console.log('err', err)
+          this.$router.push('/')
+        })
     }
   },
   components: {
@@ -95,7 +139,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'addTicket'
+      'addTicket',
+      'updateTicket'
     ]),
     onSubmit () {
       this.$v.$touch()
@@ -107,11 +152,19 @@ export default {
         title: this.formData.title,
         priority: this.formData.priority,
         description: this.formData.description,
-        creator: null,
-        status: 'Unassigned',
+        creator: this.userData.userId,
+        status: this.formData.status,
         creationDate: new Date().toISOString().slice(0, 10).replace(/-/g, '/'),
-        uploadedFilePath: null,
-        uploadedFileName: null
+        uploadedFilePath: this.formData.uploadedFilePath,
+        uploadedFileName: this.formData.uploadedFileName
+      }
+      if (this.editMode) {
+        ticketData.id = this.formData.id
+        ticketData.creator = this.formData.creator
+        this.updateTicket(ticketData)
+          .then(() => {
+            this.$router.push('/tickets')
+          })
       }
       this.addTicket(ticketData)
         .then(() => {
@@ -120,6 +173,9 @@ export default {
     },
     updateHtml: function (e) {
       this.formData.description = e.target.innerHTML
+      this.updateDivHeight()
+    },
+    updateDivHeight () {
       document.getElementById('customTextareaInput').style.height = this.$refs.customTextareaContenteditable.offsetHeight + 'px'
     }
   },

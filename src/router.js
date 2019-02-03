@@ -58,10 +58,15 @@ export default new Router({
       component: () => import('./components/Users/Users.vue')
     },
     {
-      path: '/Submit-Ticket',
+      path: '/Submit-Ticket/',
       name: 'Ticket-Submit.vue',
       component: () => import('./components/Tickets/Ticket-Submit.vue'),
-      beforeEnter: ifAuthenticated
+      beforeEnter: ifAuthenticated,
+      children: [
+        {
+          path: ':id'
+        }
+      ]
     },
     {
       path: '*',
