@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema({
   password: { type: String, required: true },
   userType: { type: String, required: true, default: 'employee' },
   nickname: { type: String, required: false },
-  avatarPath: { type: String, default: 'http://localhost:3000/files/images/missing_user_avatar.png' }
+  avatarPath: { type: String, default: 'http://localhost:3000/images/missing_user_avatar.png' }
 })
 
 // validate unique fields

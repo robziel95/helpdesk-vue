@@ -22,7 +22,7 @@ const avatarStorage = multer.diskStorage({
       error = null
     }
     // first argument is error, second path
-    cb(error, 'backend/files/images')
+    cb(error, 'backend/images')
   },
   filename: (req, file, cb) => {
     const name = file.originalname.toLowerCase().split(' ').join('-')
@@ -72,7 +72,7 @@ router.put('/api/users/:id', checkAuth, multer({ storage: avatarStorage }).singl
   const url = req.protocol + '://' + req.get('host')
   bcrypt.hash(req.body.password, 10).then(
     hash => {
-      let reqAvatarPath = (req.file !== undefined ? (url + '/files/images/' + req.file.filename) : req.body.avatarPath)
+      let reqAvatarPath = (req.file !== undefined ? (url + '/images/' + req.file.filename) : req.body.avatarPath)
       // 'null' because FormData object which is sent with request transforms null to 'null'
       if (reqAvatarPath === 'null') {
         reqAvatarPath = undefined

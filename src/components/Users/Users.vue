@@ -54,7 +54,7 @@
           <v-btn color="error" @click="onDelete(user.id)">
             Delete
           </v-btn>
-          <v-btn class="btn--cyan">
+          <v-btn :to="`/Edit-User/${user.id}`" class="btn--cyan">
             Edit User
           </v-btn>
         </div>

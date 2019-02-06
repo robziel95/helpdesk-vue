@@ -58,6 +58,18 @@ export default new Router({
       component: () => import('./components/Users/Users.vue')
     },
     {
+      path: '/Create-User',
+      name: 'Create-User.vue',
+      component: () => import('./components/Users/Create-User.vue'),
+      beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/Edit-User/:id',
+      name: 'Edit-User.vue',
+      component: () => import('./components/Users/Create-User.vue'),
+      beforeEnter: ifAuthenticated
+    },
+    {
       path: '/Submit-Ticket/',
       name: 'Ticket-Submit.vue',
       component: () => import('./components/Tickets/Ticket-Submit.vue'),

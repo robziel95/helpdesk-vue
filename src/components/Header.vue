@@ -19,6 +19,7 @@
     <v-toolbar flat class="hidden-xs-only">
         <v-btn to="/">Dashboard</v-btn>
         <v-btn to="/Users">Users List</v-btn>
+        <v-btn to="/Create-User">Create User</v-btn>
         <v-btn to="/Tickets">Tickets</v-btn>
         <v-btn to="/Submit-Ticket">Submit Ticket</v-btn>
     </v-toolbar>
@@ -60,7 +61,8 @@ export default {
         { name: 'Sign up', icon: 'person_add', addClass: '', route: '/Signup' },
         { name: 'Dashboard', icon: 'home', addClass: '', route: '/' },
         { name: 'Users list', icon: 'people', addClass: '', route: '/Users' },
-        { name: 'Tickets', icon: 'pages', addClass: '', route: '/Tickets' },
+        { name: 'Create user', icon: 'pages', addClass: '', route: '/Create-User' },
+        { name: 'Tickets', icon: 'add_to_photos', addClass: '', route: '/Tickets' },
         { name: 'Submit ticket', icon: 'add', addClass: '', route: '/Submit-Ticket' }
       ]
     }

@@ -3,7 +3,7 @@ export default {
   authStatus: state => state.status,
   userType: state => state.userType,
   isAdmin: state => state.userType === 'administrator',
-  userData: state => {
+  authUserData: state => {
     return {
       userId: state.userId,
       userType: state.userType

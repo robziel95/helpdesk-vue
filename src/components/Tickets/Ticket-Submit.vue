@@ -22,7 +22,6 @@
             <div v-if="isAdmin" class="formField">
               <v-select
                 v-model="formData.status"
-                item-value="Unassigned"
                 label="Status"
                 :items="statusList"/>
             </div>
@@ -102,7 +101,7 @@ export default {
     ...mapGetters([
       'isAuthenticated',
       'isAdmin',
-      'userData'
+      'authUserData'
     ])
   },
   created () {
@@ -152,7 +151,7 @@ export default {
         title: this.formData.title,
         priority: this.formData.priority,
         description: this.formData.description,
-        creator: this.userData.userId,
+        creator: this.authUserData.userId,
         status: this.formData.status,
         creationDate: new Date().toISOString().slice(0, 10).replace(/-/g, '/'),
         uploadedFilePath: this.formData.uploadedFilePath,
@@ -165,6 +164,7 @@ export default {
           .then(() => {
             this.$router.push('/tickets')
           })
+        return
       }
       this.addTicket(ticketData)
         .then(() => {
