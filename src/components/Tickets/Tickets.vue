@@ -53,7 +53,7 @@
         v-for="ticket in ((filteredTickets) ? filteredTickets : fetchedTickets)" :key="ticket.id" class="expansion-modify">
         <ticket-header :title="ticket.title" :status="ticket.status" slot="header"/>
         <ticket-body :ticket="ticket"/>
-        <div v-if=(isLoggedIn)
+        <div v-if="isAuthenticated && (isAdmin || (ticket.creator === authUserData.userId))"
           class="expansion-panel__foter">
           <v-btn color="error" @click="onDelete(ticket.id)">
             Delete
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import ticketHeader from './Ticket-Header'
 import ticketBody from './Ticket-Body'
 
@@ -98,6 +98,11 @@ export default {
       })
   },
   computed: {
+    ...mapGetters([
+      'isAuthenticated',
+      'isAdmin',
+      'authUserData'
+    ]),
     ...mapState([
       'tickets'
     ]),

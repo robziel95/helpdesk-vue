@@ -44,7 +44,7 @@ router.post('/api/tickets', multer({ storage: fileStorage }).single('uploadedFil
     priority: req.body.priority,
     description: req.body.description,
     // creator: req.userData.userId,
-    creator: '5c3dc58c0852f72aec78b103',
+    creator: req.body.creator,
     status: req.body.status,
     creationDate: req.body.creationDate,
     uploadedFilePath: reqUploadedFilePath,

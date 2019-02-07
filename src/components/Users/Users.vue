@@ -49,7 +49,7 @@
             E-mail: <span>{{ user.email }}</span>
           </div>
         </div>
-        <div v-if=(isLoggedIn)
+        <div v-if="isAuthenticated && (isAdmin || user.id === authUserData.userId)"
           class="box__footer">
           <v-btn color="error" @click="onDelete(user.id)">
             Delete
@@ -68,6 +68,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   beforeCreate () {
     this.$store.dispatch('fetchUsers')
@@ -78,6 +80,11 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'isAuthenticated',
+      'isAdmin',
+      'authUserData'
+    ]),
     users () {
       return this.$store.state.users.users.filter(user => {
         return (
@@ -88,9 +95,6 @@ export default {
           (user.userType.toLowerCase().includes(this.search.toLowerCase()))
         )
       })
-    },
-    isLoggedIn () {
-      return this.$store.getters.isAuthenticated
     }
   },
   methods: {
