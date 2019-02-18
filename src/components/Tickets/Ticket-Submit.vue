@@ -13,7 +13,8 @@
               label="Title*"
               @blur="$v.formData.title.$touch()"/>
 
-              <p v-if="!$v.formData.title.required && $v.formData.title.$error"
+              <p v-if="!$v.formData.title.required
+                  && $v.formData.title.$error"
                 class="errorText">
                 This field must not be empty.
               </p>
@@ -56,7 +57,16 @@
                 </p>
               </div>
             </div>
-
+            <div class="form-field-file">
+              <label class="form-field-file__title" for="uploadFileField">Change user avatar</label>
+              <div class=form-field-file__content>
+                <v-btn @click="$refs.filePicker.click()" class="btn--cyan mx-0 my-0" type="button">Choose File</v-btn>
+                <input @change="onImageChanged($event)" ref="filePicker" id="uploadFileField" type="file">
+                <div class="form-field-file__content__description">
+                  <p>{{ inputFile.name }}</p>
+                </div>
+              </div>
+            </div>
             <v-btn
             class="btn--cyan my-2 mx-0"
             @click = onSubmit()>
@@ -91,7 +101,12 @@ export default {
         uploadedFileName: null
       },
       innerDivHtml: '',
-      editMode: false
+      editMode: false,
+      inputFile: {
+        name: null,
+        file: null
+      },
+      uploadedFileInfo: null
     }
   },
   computed: {
@@ -160,13 +175,13 @@ export default {
       if (this.editMode) {
         ticketData.id = this.formData.id
         ticketData.creator = this.formData.creator
-        this.updateTicket(ticketData)
+        this.updateTicket({ inputTicket: ticketData, uploadedFile: this.inputFile.file })
           .then(() => {
             this.$router.push('/tickets')
           })
         return
       }
-      this.addTicket(ticketData)
+      this.addTicket({ inputTicket: ticketData, uploadedFile: this.inputFile.file })
         .then(() => {
           this.$router.push('/tickets')
         })
@@ -177,6 +192,20 @@ export default {
     },
     updateDivHeight () {
       document.getElementById('customTextareaInput').style.height = this.$refs.customTextareaContenteditable.offsetHeight + 'px'
+    },
+    onImageChanged (event) {
+      const file = (event.target).files[0]
+      this.inputFile.file = file
+      this.inputFile.name = file.name
+      // create reader
+      const reader = new FileReader()
+      // init reader
+      reader.onload = (readerEvent) => {
+        // execute after reading
+        this.uploadedFileInfo = reader.result
+      }
+      // start reader (read 'file')
+      reader.readAsDataURL(file)
     }
   },
   validations: {
@@ -219,6 +248,37 @@ export default {
       }
       /deep/ .v-label{
         top: 20px;
+      }
+    }
+  }
+  .form-field-file{
+    width: 100%;
+    margin: 15px 0 20px;
+    &__title{
+      margin-bottom: 15px;
+      transform: perspective(100px);
+      display: block;
+      text-overflow: ellipsis;
+      color: rgba(0,0,0,.54);
+      line-height: 1.125;
+    }
+    &__content{
+      display: flex;
+      &__description{
+        margin-left: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        color: $color-font-dark;
+        color: rgba(0,0,0,0.87);
+        font-size: 1.17rem;
+        p{
+          margin: 0;
+        }
+      }
+      input[type=file]{
+        visibility: hidden;
+        position: absolute;
       }
     }
   }

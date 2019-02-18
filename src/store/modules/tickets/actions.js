@@ -1,14 +1,14 @@
 import axios from 'axios'
 
 export default {
-  addTicket: (context, inputTicket) => {
+  addTicket: (context, payload) => {
     return new Promise((resolve, reject) => {
       let ticketFormData = new FormData()
-      for (var key in inputTicket) {
-        ticketFormData.append(key, inputTicket[key])
+      for (var key in payload.inputTicket) {
+        ticketFormData.append(key, payload.inputTicket[key])
       }
-      ticketFormData.append('uploadedFile', 'uploadedFile')
-      axios.post('http://localhost:3000/api/tickets', inputTicket)
+      ticketFormData.append('uploadedFile', payload.uploadedFile)
+      axios.post('http://localhost:3000/api/tickets', ticketFormData)
         .then(
           (responseData) => {
             context.commit('showSnackbar', { text: 'Ticket successfully added' })
@@ -24,16 +24,18 @@ export default {
         )
     })
   },
-  updateTicket ({ state }, inputTicket, uploadedFile = null) {
+  updateTicket ({ state }, payload) {
     return new Promise((resolve, reject) => {
+      console.log(payload)
       let inputTicketFormData = new FormData()
-      for (var key in inputTicket) {
-        inputTicketFormData.append(key, inputTicket[key])
+      for (var key in payload.inputTicket) {
+        inputTicketFormData.append(key, payload.inputTicket[key])
       }
-      if (uploadedFile !== null) {
-        inputTicketFormData.set('uploadedFile', uploadedFile)
+      if (payload.uploadedFile !== null) {
+        inputTicketFormData.set('uploadedFile', payload.uploadedFile)
       }
-      axios.put('http://localhost:3000/api/tickets/' + inputTicket.id, inputTicketFormData)
+
+      axios.put('http://localhost:3000/api/tickets/' + payload.inputTicket.id, inputTicketFormData)
         .then(
           (response) => {
             resolve()

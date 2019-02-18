@@ -3,7 +3,14 @@ import axios from 'axios'
 export default {
   addUser: (context, payload) => {
     return new Promise((resolve, reject) => {
-      axios.post('api/users/create', payload)
+      let inputUserFormData = new FormData()
+      for (var key in payload.inputUser) {
+        inputUserFormData.append(key, payload.inputUser[key])
+      }
+      if (payload.uploadedFile) {
+        inputUserFormData.set('avatar', payload.uploadedFile)
+      }
+      axios.post('api/users/create', inputUserFormData)
         .then(res => {
           context.commit('showSnackbar', { text: 'New user has been added' })
           context.dispatch('fetchUsers')
@@ -32,16 +39,16 @@ export default {
         )
     })
   },
-  updateUser ({ state }, inputUser, uploadedFile = null) {
+  updateUser ({ state }, payload) {
     return new Promise((resolve, reject) => {
       let inputUserFormData = new FormData()
-      for (var key in inputUser) {
-        inputUserFormData.append(key, inputUser[key])
+      for (var key in payload.inputUser) {
+        inputUserFormData.append(key, payload.inputUser[key])
       }
-      if (uploadedFile !== null) {
-        inputUserFormData.set('uploadedFile', uploadedFile)
+      if (payload.uploadedFile) {
+        inputUserFormData.set('avatar', payload.uploadedFile)
       }
-      axios.put('http://localhost:3000/api/users/' + inputUser.id, inputUserFormData)
+      axios.put('http://localhost:3000/api/users/' + payload.inputUser.id, inputUserFormData)
         .then(
           (response) => {
             resolve()

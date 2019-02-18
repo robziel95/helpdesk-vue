@@ -88,7 +88,6 @@ router.put('/api/tickets/:id', checkAuth, multer({ storage: fileStorage }).singl
     uploadedFilePath: reqUploadedFilePath,
     uploadedFileName: reqUploadedFileName
   })
-
   let updateTicket
   User.findById(req.userData.userId)
     .then(

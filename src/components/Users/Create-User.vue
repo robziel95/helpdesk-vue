@@ -54,7 +54,16 @@
               <p v-if="!$v.userData.email.email && $v.userData.email.$error" class="errorText">Please provide a valid email address.</p>
               <p v-if="!$v.userData.email.required && $v.userData.email.$error" class="errorText">This field must not be empty.</p>
             </div>
-
+            <div class="form-field-image">
+              <div class=form-field-image__image>
+                <img :src="imagePreview" alt="Missing user avatar">
+              </div>
+              <div class=form-field-image__content>
+                <label class="upload-file-label" for="uploadFileField">Change user avatar</label>
+                <v-btn @click="$refs.filePicker.click()" class="btn--cyan mx-0 my-0" type="button">Choose File</v-btn>
+                <input @change="onImageChanged($event)" ref="filePicker" id="uploadFileField" type="file">
+              </div>
+            </div>
             <div class="formField" :class="{invalidField: $v.userData.password.$error}">
               <v-text-field
                 v-model="userData.password"
@@ -114,7 +123,9 @@ export default {
         confirmPassword: '',
         avatarPatch: null
       },
-      editMode: false
+      editMode: false,
+      imagePreview: 'http://localhost:3000/images/missing_user_avatar.png',
+      avatar: null
     }
   },
   computed: {
@@ -164,18 +175,20 @@ export default {
         surname: this.userData.surname,
         nickname: this.userData.nickname,
         userType: this.userData.userType,
-        password: this.userData.password
+        password: this.userData.password,
+        avatarPatch: null
       }
       if (this.editMode) {
         userData.id = this.userData.id
         userData.avatarPatch = this.userData.avatarPatch
-        this.updateUser(userData)
+        console.log(this.avatar)
+        this.updateUser({ inputUser: userData, uploadedFile: this.avatar })
           .then(() => {
             this.$router.push('/Users')
           })
         return
       }
-      this.addUser(userData)
+      this.addUser({ inputUser: userData, uploadedFile: this.avatar })
         .then(() => {
           this.$router.push('/Users')
         })
@@ -186,6 +199,19 @@ export default {
     },
     updateDivHeight () {
       document.getElementById('customTextareaInput').style.height = this.$refs.customTextareaContenteditable.offsetHeight + 'px'
+    },
+    onImageChanged (event) {
+      const file = (event.target).files[0]
+      this.avatar = file
+      // create reader
+      const reader = new FileReader()
+      // init reader
+      reader.onload = () => {
+        // execute after reading
+        this.imagePreview = reader.result
+      }
+      // start reader (read 'file')
+      reader.readAsDataURL(file)
     }
   },
   validations: {
@@ -214,4 +240,40 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .form-field-image{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 20px;
+    &__image{
+      margin-right: 15px;
+      width: 125px;
+      height: 125px;
+      img{
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+      }
+    }
+    &__content{
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+
+      .upload-file-label{
+        margin-bottom: 15px;
+        transform: perspective(100px);
+        display: block;
+        text-overflow: ellipsis;
+        color: rgba(0,0,0,.54);
+        line-height: 1.125;
+      }
+      input[type=file]{
+        visibility: hidden;
+      }
+    }
+  }
 </style>
