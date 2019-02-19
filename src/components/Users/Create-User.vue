@@ -55,7 +55,7 @@
               <p v-if="!$v.userData.email.required && $v.userData.email.$error" class="errorText">This field must not be empty.</p>
             </div>
             <div class="form-field-image" :class="{invalidField: $v.avatar.$error}">
-              <div v-if="imagePreview" class=form-field-image__image>
+              <div v-if="imagePreview && !$v.avatar.$error" class=form-field-image__image>
                 <img :src="imagePreview" alt="Missing user avatar">
               </div>
               <div class=form-field-image__content>
@@ -63,9 +63,10 @@
                 <v-btn @click="$refs.filePicker.click()" class="btn--cyan mx-0 my-0" type="button">Choose File</v-btn>
                 <input @input="$v.avatar.$touch()" @change="onImageChanged($event)" ref="filePicker" id="uploadFileField" type="file">
               </div>
-              <!-- <p v-if="!$v.avatar.imageFile" -->
-              <p>
-                class="errorText">{{ $v.avatar}}
+              <!-- <p -->
+              <p v-if="$v.avatar.$error"
+                class="errorText form-field-image__error">
+                Please attach file with correct extension.
               </p>
             </div>
             <div class="formField" :class="{invalidField: $v.userData.password.$error}">
@@ -111,6 +112,7 @@
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
+import imageValidator from '../validators/image-validation.js'
 
 export default {
   data () {
@@ -140,7 +142,7 @@ export default {
       'isAuthenticated',
       'isAdmin',
       'authUserData'
-    ]),
+    ])
   },
   created () {
     let routeUserId = this.$route.params.id
@@ -185,7 +187,6 @@ export default {
       if (this.editMode) {
         userData.id = this.userData.id
         userData.avatarPatch = this.userData.avatarPatch
-        console.log(this.avatar)
         this.updateUser({ inputUser: userData, uploadedFile: this.avatar })
           .then(() => {
             this.$router.push('/Users')
@@ -241,17 +242,7 @@ export default {
     },
     avatar: {
       imageFile: file => {
-
-        if (file === '') return true;
-        if (!file || typeof(file) === 'string') {
-          return false;
-        }
-        const fileReader = new FileReader();
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            resolve(true);
-          }, 3000)
-        })
+        return imageValidator(file)
       }
     }
   }
@@ -263,7 +254,6 @@ export default {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    margin-bottom: 20px;
     &__image{
       margin-right: 15px;
       width: 125px;
@@ -293,6 +283,10 @@ export default {
       input[type=file]{
         visibility: hidden;
       }
+    }
+    &__error{
+      margin-top: -30px!important;
+      margin-bottom: 0;
     }
   }
 </style>

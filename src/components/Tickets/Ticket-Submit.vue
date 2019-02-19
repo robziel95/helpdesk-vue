@@ -57,15 +57,20 @@
                 </p>
               </div>
             </div>
-            <div class="form-field-file">
+            <div class="form-field-file"  :class="{invalidField: $v.inputFile.$error}">
               <label class="form-field-file__title" for="uploadFileField">Change user avatar</label>
               <div class=form-field-file__content>
                 <v-btn @click="$refs.filePicker.click()" class="btn--cyan mx-0 my-0" type="button">Choose File</v-btn>
-                <input @change="onImageChanged($event)" ref="filePicker" id="uploadFileField" type="file">
+                <input @input="$v.inputFile.$touch()" @change="onFileChanged($event)" ref="filePicker" id="uploadFileField" type="file">
                 <div class="form-field-file__content__description">
                   <p>{{ inputFile.name }}</p>
                 </div>
               </div>
+              <p v-if="$v.inputFile.$error"
+                class="errorText form-field-file__error">
+                Please attach file with correct extension.
+                {{ $v.inputFile}}
+              </p>
             </div>
             <v-btn
             class="btn--cyan my-2 mx-0"
@@ -83,6 +88,7 @@
 import { required } from 'vuelidate/lib/validators'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import textEditor from '../Items/Text-editor'
+import fileValidator from '../validators/file-validator.js'
 
 export default {
   data () {
@@ -105,8 +111,7 @@ export default {
       inputFile: {
         name: null,
         file: null
-      },
-      uploadedFileInfo: null
+      }
     }
   },
   computed: {
@@ -193,17 +198,12 @@ export default {
     updateDivHeight () {
       document.getElementById('customTextareaInput').style.height = this.$refs.customTextareaContenteditable.offsetHeight + 'px'
     },
-    onImageChanged (event) {
+    onFileChanged (event) {
       const file = (event.target).files[0]
       this.inputFile.file = file
       this.inputFile.name = file.name
       // create reader
       const reader = new FileReader()
-      // init reader
-      reader.onload = (readerEvent) => {
-        // execute after reading
-        this.uploadedFileInfo = reader.result
-      }
       // start reader (read 'file')
       reader.readAsDataURL(file)
     }
@@ -216,8 +216,12 @@ export default {
       description: {
         required
       }
+    },
+    inputFile: {
+      attachedFile: attachedFile => {
+        return fileValidator(attachedFile.file)
+      }
     }
-
   }
 }
 </script>
@@ -273,6 +277,7 @@ export default {
         color: rgba(0,0,0,0.87);
         font-size: 1.17rem;
         p{
+          word-break: break-all;
           margin: 0;
         }
       }
@@ -280,6 +285,9 @@ export default {
         visibility: hidden;
         position: absolute;
       }
+    }
+    &__error{
+      margin-top: 15px!important;
     }
   }
 </style>
