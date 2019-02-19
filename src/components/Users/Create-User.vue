@@ -54,15 +54,19 @@
               <p v-if="!$v.userData.email.email && $v.userData.email.$error" class="errorText">Please provide a valid email address.</p>
               <p v-if="!$v.userData.email.required && $v.userData.email.$error" class="errorText">This field must not be empty.</p>
             </div>
-            <div class="form-field-image">
-              <div class=form-field-image__image>
+            <div class="form-field-image" :class="{invalidField: $v.avatar.$error}">
+              <div v-if="imagePreview" class=form-field-image__image>
                 <img :src="imagePreview" alt="Missing user avatar">
               </div>
               <div class=form-field-image__content>
                 <label class="upload-file-label" for="uploadFileField">Change user avatar</label>
                 <v-btn @click="$refs.filePicker.click()" class="btn--cyan mx-0 my-0" type="button">Choose File</v-btn>
-                <input @change="onImageChanged($event)" ref="filePicker" id="uploadFileField" type="file">
+                <input @input="$v.avatar.$touch()" @change="onImageChanged($event)" ref="filePicker" id="uploadFileField" type="file">
               </div>
+              <!-- <p v-if="!$v.avatar.imageFile" -->
+              <p>
+                class="errorText">{{ $v.avatar}}
+              </p>
             </div>
             <div class="formField" :class="{invalidField: $v.userData.password.$error}">
               <v-text-field
@@ -124,8 +128,8 @@ export default {
         avatarPatch: null
       },
       editMode: false,
-      imagePreview: 'http://localhost:3000/images/missing_user_avatar.png',
-      avatar: null
+      avatar: null,
+      imagePreview: 'http://localhost:3000/images/missing_user_avatar.png'
     }
   },
   computed: {
@@ -136,7 +140,7 @@ export default {
       'isAuthenticated',
       'isAdmin',
       'authUserData'
-    ])
+    ]),
   },
   created () {
     let routeUserId = this.$route.params.id
@@ -233,6 +237,21 @@ export default {
       confirmPassword: {
         required,
         sameAs: sameAs('password')
+      }
+    },
+    avatar: {
+      imageFile: file => {
+
+        if (file === '') return true;
+        if (!file || typeof(file) === 'string') {
+          return false;
+        }
+        const fileReader = new FileReader();
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve(true);
+          }, 3000)
+        })
       }
     }
   }
