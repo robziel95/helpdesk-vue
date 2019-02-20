@@ -50,11 +50,12 @@
     </v-layout>
     <v-expansion-panel expand class="expansion-panel-modify">
       <v-expansion-panel-content
-        v-for="ticket in ((filteredTickets) ? filteredTickets : fetchedTickets)" :key="ticket.id" class="expansion-modify">
+        v-for="ticket in ((filteredTickets) ? filteredTickets : fetchedTickets)" :key="ticket.id" class="expansion-panel">
         <ticket-header :title="ticket.title" :status="ticket.status" slot="header"/>
         <ticket-body :ticket="ticket"/>
-        <div class="separator separator--cyan"/>
+
         <div v-if="ticket.uploadedFilePath" class="expansion-panel__uploaded-file">
+          <div class="separator separator--cyan"/>
           <div class="expansion-panel__uploaded-file__file">
             <p class="mr-2"><v-icon size="20px" class="mr-1">cloud_download</v-icon>Uploaded file:</p>
             <p>{{ ticket.uploadedFileName }}</p>
@@ -74,7 +75,7 @@
           <v-btn color="error" @click="onDelete(ticket.id)">
             Delete
           </v-btn>
-          <v-btn :to="`/Submit-Ticket/${ticket.id}`" class="btn--cyan">
+          <v-btn :to="`/Submit-Ticket/${ticket.id}`" class="btn--cyan mr-0">
             Edit Ticket
           </v-btn>
         </div>

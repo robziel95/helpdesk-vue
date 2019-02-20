@@ -1,6 +1,9 @@
 .expansion-panel{
+  /deep/ .separator{
+    margin-bottom: 12px!important;
+  }
   &__uploaded-file{
-    padding: 12px 24px;
+    padding: 0px 24px 12px;
     text-align: left;
     @media only screen and (min-width: 600px) {
       text-align: right;
@@ -25,7 +28,8 @@
     }
   }
   &__footer{
-    padding: 10px;
+    margin: 0 24px;
+    padding: 12px 0;
     border-top: 1px solid $color-cyan;
     display: flex;
     justify-content: flex-end;
@@ -38,7 +42,7 @@
 .expansion-panel-modify{
   box-shadow: none!important;
 }
-.expansion-modify{
+.expansion-panel{
   margin-bottom: 20px;
   border: 1px solid $color-separator-grey;
   @extend %material-shadow;
