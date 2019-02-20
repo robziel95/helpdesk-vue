@@ -53,8 +53,24 @@
         v-for="ticket in ((filteredTickets) ? filteredTickets : fetchedTickets)" :key="ticket.id" class="expansion-modify">
         <ticket-header :title="ticket.title" :status="ticket.status" slot="header"/>
         <ticket-body :ticket="ticket"/>
+        <div class="separator separator--cyan"/>
+        <div v-if="ticket.uploadedFilePath" class="expansion-panel__uploaded-file">
+          <div class="expansion-panel__uploaded-file__file">
+            <p class="mr-2"><v-icon size="20px" class="mr-1">cloud_download</v-icon>Uploaded file:</p>
+            <p>{{ ticket.uploadedFileName }}</p>
+          </div>
+          <v-btn
+            :href="ticket.uploadedFilePath"
+            :download="ticket.uploadedFilePath"
+            small
+            outline
+            target="_self"
+            class="mt-2 mx-0 btn--orange">
+              Download
+          </v-btn>
+        </div>
         <div v-if="isAuthenticated && (isAdmin || (ticket.creator === authUserData.userId))"
-          class="expansion-panel__foter">
+          class="expansion-panel__footer">
           <v-btn color="error" @click="onDelete(ticket.id)">
             Delete
           </v-btn>

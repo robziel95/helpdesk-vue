@@ -1,5 +1,30 @@
 .expansion-panel{
-  &__foter{
+  &__uploaded-file{
+    padding: 12px 24px;
+    text-align: left;
+    @media only screen and (min-width: 600px) {
+      text-align: right;
+    }
+    p{
+      margin: 0;
+      @media only screen and (max-width: 600px) {
+        &:first-of-type{
+          word-wrap: none;
+          white-space: nowrap;
+        }
+      }
+    }
+    &__file{
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      @media only screen and (min-width: 600px) {
+        justify-content: flex-end;
+      }
+    }
+  }
+  &__footer{
     padding: 10px;
     border-top: 1px solid $color-cyan;
     display: flex;
