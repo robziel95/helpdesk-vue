@@ -1,32 +1,32 @@
 import axios from 'axios'
 
 export default {
-  addTicket: (context, payload) => {
+  addTicket: ({ commit }, payload) => {
     return new Promise((resolve, reject) => {
       let ticketFormData = new FormData()
       for (var key in payload.inputTicket) {
         ticketFormData.append(key, payload.inputTicket[key])
       }
       ticketFormData.append('uploadedFile', payload.uploadedFile)
+      commit('setLoader', true, { root: true })
       axios.post('http://localhost:3000/api/tickets', ticketFormData)
         .then(
           (responseData) => {
-            context.commit('showSnackbar', { text: 'Ticket successfully added' })
+            commit('showSnackbar', { text: 'Ticket successfully added' })
+            commit('setLoader', false, { root: true })
             resolve()
           }
         )
         .catch(
           err => {
-            console.log(err, 'Add ticket failed')
-            context.commit('showSnackbar', { text: 'Ticket addition failed' })
+            commit('showSnackbar', { text: 'Ticket addition failed' })
             reject(err)
           }
         )
     })
   },
-  updateTicket ({ state }, payload) {
+  updateTicket ({ commit }, payload) {
     return new Promise((resolve, reject) => {
-      console.log(payload)
       let inputTicketFormData = new FormData()
       for (var key in payload.inputTicket) {
         inputTicketFormData.append(key, payload.inputTicket[key])
@@ -34,10 +34,11 @@ export default {
       if (payload.uploadedFile !== null) {
         inputTicketFormData.set('uploadedFile', payload.uploadedFile)
       }
-
+      commit('setLoader', true, { root: true })
       axios.put('http://localhost:3000/api/tickets/' + payload.inputTicket.id, inputTicketFormData)
         .then(
           (response) => {
+            commit('setLoader', false, { root: true })
             resolve()
           }
         ).catch(
@@ -49,6 +50,7 @@ export default {
   },
   getTickets: ({ commit }) => {
     return new Promise((resolve, reject) => {
+      commit('setLoader', true, { root: true })
       axios.get('http://localhost:3000/api/tickets')
         .then(
           (ticketData) => {
@@ -69,6 +71,7 @@ export default {
             )
             resolve()
             commit('fetchTickets', fetchedTickets)
+            commit('setLoader', false, { root: true })
           }
         )
         .catch(
@@ -80,11 +83,13 @@ export default {
         )
     })
   },
-  getTicket: ({ state }, ticketId) => {
+  getTicket: ({ commit }, ticketId) => {
     return new Promise((resolve, reject) => {
+      commit('setLoader', true, { root: true })
       return axios.get('http://localhost:3000/api/tickets/' + ticketId)
         .then(
           res => {
+            commit('setLoader', false, { root: true })
             resolve(res.data)
           }
         )
@@ -95,17 +100,19 @@ export default {
         )
     })
   },
-  deleteTicket (context, ticketId) {
+  deleteTicket ({ commit }, ticketId) {
+    commit('setLoader', true, { root: true })
     axios.delete('http://localhost:3000/api/tickets/' + ticketId)
       .then(
         response => {
-          context.commit('showSnackbar', { text: 'Ticket deleted successfully' })
-          context.commit('deleteTicket', ticketId)
+          commit('setLoader', false, { root: true })
+          commit('showSnackbar', { text: 'Ticket deleted successfully' })
+          commit('deleteTicket', ticketId)
         }
       )
       .catch(
         () => {
-          context.commit('showSnackbar', { text: 'Ticket deletion failed' })
+          commit('showSnackbar', { text: 'Ticket deletion failed' })
         }
       )
   }

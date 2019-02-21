@@ -13,7 +13,14 @@
         />
       </v-flex>
     </v-layout>
-    <section class="users-list" v-if="users.length > 0" >
+    <div v-if="loader" class="infiniteLoader">
+      <v-progress-circular
+        indeterminate
+        :width="2.5"
+        class="infiniteLoader__loader"
+      />
+    </div>
+    <section class="users-list" v-if="users.length > 0 && !loader" >
       <div v-for="user in users" :key="user.id" class="box">
         <div class="box__header">
           <div class="box__header__picture">
@@ -83,7 +90,8 @@ export default {
     ...mapGetters([
       'isAuthenticated',
       'isAdmin',
-      'authUserData'
+      'authUserData',
+      'loader'
     ]),
     users () {
       return this.$store.state.users.users.filter(user => {

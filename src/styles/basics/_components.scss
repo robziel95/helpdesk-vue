@@ -19,3 +19,15 @@
   width: 1.2em;
   margin-bottom: -4px;
 }
+
+.infiniteLoader{
+  width: 100%;
+  text-align: center;
+  margin-top: 70px;
+  margin-bottom: 70px;
+  &__loader{
+    color: $color-cyan;
+    width: 100px!important;
+    height: 100px!important;
+  }
+}

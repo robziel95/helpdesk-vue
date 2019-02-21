@@ -112,7 +112,7 @@ export default {
       if (this.$v.$invalid) {
         return
       }
-      this.$store.dispatch('addUser', this.userData)
+      this.$store.dispatch('addUser', { inputUser: this.userData })
         .then(() => {
           this.$router.push('/')
         })

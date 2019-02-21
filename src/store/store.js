@@ -9,9 +9,14 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
+    loader: true
   },
   getters: {},
-  mutations: {},
+  mutations: {
+    setLoader: (state, payload) => {
+      state.loader = payload
+    }
+  },
   actions: {},
   modules: {
     users,

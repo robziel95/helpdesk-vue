@@ -3,7 +3,14 @@
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <h2 class="headline my-4">Create a new account</h2>
-        <v-card class="pa-4">
+        <div v-if="loader" class="infiniteLoader">
+          <v-progress-circular
+            indeterminate
+            :width="2.5"
+            class="infiniteLoader__loader"
+          />
+        </div>
+        <v-card v-else class="pa-4">
           <v-form
             @submit.prevent="onSubmit"
             ref="form">
@@ -116,7 +123,8 @@ export default {
   },
   computed: {
     ...mapState([
-      'authentication'
+      'authentication',
+      'loader'
     ]),
     ...mapGetters([
       'isAuthenticated',
@@ -219,6 +227,7 @@ export default {
     },
     inputFile: {
       attachedFile: attachedFile => {
+        if (!attachedFile) return true
         return fileValidator(attachedFile.file)
       }
     }
@@ -227,67 +236,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .custom-textarea{
-    position: relative;
-    &__editableDiv{
-      position: absolute;
-      padding: 12px 0;
-      z-index: 1;
-      top: 20px;
-      left: 0;
-      min-height: 50px;
-      height: auto;
-      width: 100%;
-      color: $color-font-dark;
-      overflow: hidden;
-      outline: none;
-      display:block;
-      color: rgba(0,0,0,0.87);
-      font-size: 1.17rem;
-    }
-    &__input{
-      /deep/ textarea{
-        visibility: hidden;
-        height: 50px;
-      }
-      /deep/ .v-label{
-        top: 20px;
-      }
-    }
-  }
-  .form-field-file{
-    width: 100%;
-    margin: 15px 0 20px;
-    &__title{
-      margin-bottom: 15px;
-      transform: perspective(100px);
-      display: block;
-      text-overflow: ellipsis;
-      color: rgba(0,0,0,.54);
-      line-height: 1.125;
-    }
-    &__content{
-      display: flex;
-      &__description{
-        margin-left: 15px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        color: $color-font-dark;
-        color: rgba(0,0,0,0.87);
-        font-size: 1.17rem;
-        p{
-          word-break: break-all;
-          margin: 0;
-        }
-      }
-      input[type=file]{
-        visibility: hidden;
-        position: absolute;
-      }
-    }
-    &__error{
-      margin-top: 15px!important;
-    }
-  }
+  @import "../../styles/components/tickets/_ticket-submit.scss";
 </style>

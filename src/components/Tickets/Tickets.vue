@@ -4,51 +4,58 @@
       <h2 class="section-title">Ticket list</h2>
       <div>
         <v-layout row wrap align-end class="filterPanel__fields-container">
-        <div>
-          <v-btn
-            v-if="statusFilter || dateFilter || priorityFilter"
-            class="filterPanel__clear"
-            flat
-            @click="onClearFilters">
-            Clear all
-            <v-icon>
-              close
-            </v-icon>
-          </v-btn>
-        </div>
-        <p class="filterPanel__name">Filter by:</p>
-        <div>
-          <v-select
-            :items="statusList"
-            label="Status"
-            v-model="statusFilter"
-            class="filterPanel__field"
-            @change="onFilterChange()"/>
-        </div>
-        <div>
-          <v-select
-            :items="priorityList"
-            label="Priority"
-            v-model="priorityFilter"
-            class="filterPanel__field"
-            deletable-chips
-            @change="onFilterChange()"/>
-        </div>
-        <div>
-          <v-select
-            :items="dateFilterOptions"
-            label="Date"
-            v-model="dateFilter"
-            class="filterPanel__field"
-            append-outer-icon
-            deletable-chips
-            @change="onFilterChange()">
-          </v-select>
-        </div>
+          <div>
+            <v-btn
+              v-if="statusFilter || dateFilter || priorityFilter"
+              class="filterPanel__clear"
+              flat
+              @click="onClearFilters">
+              Clear all
+              <v-icon>
+                close
+              </v-icon>
+            </v-btn>
+          </div>
+          <p class="filterPanel__name">Filter by:</p>
+          <div>
+            <v-select
+              :items="statusList"
+              label="Status"
+              v-model="statusFilter"
+              class="filterPanel__field"
+              @change="onFilterChange()"/>
+          </div>
+          <div>
+            <v-select
+              :items="priorityList"
+              label="Priority"
+              v-model="priorityFilter"
+              class="filterPanel__field"
+              deletable-chips
+              @change="onFilterChange()"/>
+          </div>
+          <div>
+            <v-select
+              :items="dateFilterOptions"
+              label="Date"
+              v-model="dateFilter"
+              class="filterPanel__field"
+              append-outer-icon
+              deletable-chips
+              @change="onFilterChange()">
+            </v-select>
+          </div>
         </v-layout>
       </div>
     </v-layout>
-    <v-expansion-panel expand class="expansion-panel-modify">
+    <div v-if="loader" class="infiniteLoader">
+      <v-progress-circular
+        indeterminate
+        :width="2.5"
+        class="infiniteLoader__loader"
+      />
+    </div>
+    <v-expansion-panel v-else expand class="expansion-panel-modify">
       <v-expansion-panel-content
         v-for="ticket in ((filteredTickets) ? filteredTickets : fetchedTickets)" :key="ticket.id" class="expansion-panel">
         <ticket-header :title="ticket.title" :status="ticket.status" slot="header"/>
@@ -121,7 +128,8 @@ export default {
       'authUserData'
     ]),
     ...mapState([
-      'tickets'
+      'tickets',
+      'loader'
     ]),
     fetchedTickets () {
       // return this.$store.state.tickets.tickets

@@ -3,7 +3,15 @@
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <h2 class="headline my-4">Create a new account</h2>
-        <v-card class="pa-4">
+
+        <div v-if="loader" class="infiniteLoader">
+          <v-progress-circular
+            indeterminate
+            :width="2.5"
+            class="infiniteLoader__loader"
+          />
+        </div>
+        <v-card v-else class="pa-4">
           <v-form
             @submit.prevent="onSubmit"
             ref="form">
@@ -136,7 +144,8 @@ export default {
   },
   computed: {
     ...mapState([
-      'authentication'
+      'authentication',
+      'loader'
     ]),
     ...mapGetters([
       'isAuthenticated',
@@ -242,6 +251,7 @@ export default {
     },
     avatar: {
       imageFile: file => {
+        if (!file) return true
         return imageValidator(file)
       }
     }
@@ -250,43 +260,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .form-field-image{
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    &__image{
-      margin-right: 15px;
-      width: 125px;
-      height: 125px;
-      img{
-        width: 100%;
-        height: 100%;
-        display: block;
-        object-fit: cover;
-      }
-    }
-    &__content{
-      padding: 20px 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-
-      .upload-file-label{
-        margin-bottom: 15px;
-        transform: perspective(100px);
-        display: block;
-        text-overflow: ellipsis;
-        color: rgba(0,0,0,.54);
-        line-height: 1.125;
-      }
-      input[type=file]{
-        visibility: hidden;
-      }
-    }
-    &__error{
-      margin-top: -30px!important;
-      margin-bottom: 0;
-    }
-  }
+  @import "../../styles/components/_create-user.scss";
 </style>

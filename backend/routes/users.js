@@ -34,7 +34,7 @@ const avatarStorage = multer.diskStorage({
 router.post('/api/users/create', multer({ storage: avatarStorage }).single('avatar'), (req, res, next) => {
   const url = req.protocol + '://' + req.get('host')
   // hash user password with package bcrypt so they are not stored in raw form in database
-  console.log(req.body.name)
+  console.log('AAAAAAAAA', req.body)
   bcrypt.hash(req.body.password, 10).then(
     hash => {
       let reqAvatarPath = (req.file !== undefined ? (url + '/images/' + req.file.filename) : undefined)
@@ -65,6 +65,8 @@ router.post('/api/users/create', multer({ storage: avatarStorage }).single('avat
           }
         )
     }
+  ).catch(
+    console.log('bcrypt catch')
   )
 })
 

@@ -1,8 +1,9 @@
 import axios from 'axios'
 
 export default {
-  authRequest: (context, authData) => {
+  authRequest: ({ commit }, authData) => {
     return new Promise((resolve, reject) => {
+      commit('setLoader', true, { root: true })
       axios.post('/api/user/login', authData)
         .then(resp => {
           const user = resp.data.loggedUser
@@ -14,15 +15,16 @@ export default {
 
           axios.defaults.headers.common['Authorization'] = token
           // const expiresIn = resp.data.expiresIn
-          context.commit('authSuccess', { token, user })
-          context.commit('showSnackbar', { text: 'Successful sign in' })
+          commit('authSuccess', { token, user })
+          commit('setLoader', false, { root: true })
+          commit('showSnackbar', { text: 'Successful sign in' })
           resolve(resp)
         })
         .catch(err => {
-          context.commit('authError', err)
+          commit('authError', err)
           localStorage.removeItem('token')
           localStorage.removeItem('userId')
-          context.commit('showSnackbar', { text: 'Login failed' })
+          commit('showSnackbar', { text: 'Login failed' })
           reject(err)
         })
     }
@@ -39,6 +41,7 @@ export default {
     })
   },
   fetchAuthUser: ({ commit }, payload) => {
+    commit('setLoader', true, { root: true })
     axios.get('api/users/' + payload.userId)
       .then(
         (userData) => {
@@ -47,6 +50,7 @@ export default {
           let user = userData.data
           user.id = user._id
           delete user._id
+          commit('setLoader', false, { root: true })
           commit('authSuccess', { token, user })
         }
       )
